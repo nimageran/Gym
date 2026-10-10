@@ -77,6 +77,7 @@
     width: 5.5em; background: var(--raised); color: var(--fg); border: 1px solid var(--line);
     border-radius: 8px; padding: 7px 9px; font: inherit;
   }
+  .ytlink { display: block; font-size: .8rem; color: var(--muted); margin-bottom: 4px; }
   details { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 4px; }
   summary { cursor: pointer; color: var(--accent); padding: 8px 0; font-size: .92rem; }
   .lvl { margin: 8px 0; font-size: .9rem; color: #d3d9df; }
@@ -215,7 +216,7 @@ const DAYS = [
         basic: "Sit at the pulldown machine, grab the bar wide, and pull it down to your collarbone.",
         intermediate: "Do not lean backward. If you lean back to a 45-degree angle, you turn the pulldown into a row and shift the tension to your middle back. Sit perfectly upright.",
         advanced: "Treat your hands like meat hooks. Do not pull with your biceps. Drive your elbows straight down into your back pockets to strictly isolate the outer lats and force the teres major to stretch." },
-      { name: "Chest-Supported Machine Rows", video: "0UBFWqT4bQs", sets: 4, reps: "10-12 reps", rest: 90,
+      { name: "Chest-Supported Machine Rows", video: "QpLTp2AJ_cI", sets: 4, reps: "10-12 reps", rest: 90,
         cue: "Pin your chest to the pad, squeeze shoulder blades together.",
         basic: "Sit on the row machine with your chest pressed against the front pad. Pull the handles straight back.",
         intermediate: "Do not let your chest pull away from the pad for even a millimeter. Pin it down and squeeze your shoulder blades together.",
@@ -301,6 +302,7 @@ function render() {
     }, [el("span", { text: "▶ Play demo" })]);
     vid.append(play);
     card.append(vid);
+    card.append(el("a", { class: "ytlink", href: "https://www.youtube.com/watch?v=" + ex.video, target: "_blank", rel: "noopener", text: "Video not playing? Open on YouTube" }));
 
     const sets = el("div", { class: "sets" });
     st.sets[i].forEach((done, k) => {
