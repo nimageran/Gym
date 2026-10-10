@@ -42,6 +42,15 @@
     padding: 20px; text-align: center; font-size: 2rem; font-weight: bold;
     border-top: 2px solid #4da6ff; display: none; z-index: 1000;
   }
+  details { margin-top:12px; }
+  summary { cursor:pointer; color:#4da6ff; padding:6px 0; }
+  .lvl { margin:8px 0 0; font-size:.9rem; line-height:1.45; color:#dddddd; }
+  .lvl b { color:#4da6ff; display:block; font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; }
+  .day { margin-top:20px; }
+  .day h2 { font-size:1.2rem; color:#4da6ff; }
+  .day .exercise h3 { margin:0; font-size:1.05rem; }
+  .when { color:#aaaaaa; font-size:.85rem; margin:2px 0 8px; }
+  .day p { margin:6px 0; line-height:1.45; }
 </style>
 </head>
 <body>
@@ -54,6 +63,7 @@
       <iframe src="https://www.youtube.com/embed/k6tzKisR3NY" allowfullscreen></iframe>
     </div>
     <div class="cue">4 Sets | 8-10 Reps | 90s Rest<br>Cue: Sit upright, tuck elbows 30 degrees.</div>
+    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Sit on a bench with the back straight up. Press the dumbbells over your head and bring them back down to your ears.</p><p class="lvl"><b>Intermediate</b>Do not flare your elbows straight out 180 degrees. Tuck your elbows forward about 30 degrees. This creates a safer pressing path for your shoulder joint and prevents the dumbbells from pulling you backward off the bench.</p><p class="lvl"><b>Advanced</b>Flaring your elbows perfectly straight out causes acromioclavicular (AC) joint impingement, grinding the bone against the rotator cuff tendon. Tucking the elbows into the "scapular plane" aligns the humerus bone perfectly with the front and side deltoid muscle fibers, allowing you to lift heavier weight safely and force actual tissue growth.</p></details>
     <button class="set-btn" onclick="startRest(this, 90)">1</button>
     <button class="set-btn" onclick="startRest(this, 90)">2</button>
     <button class="set-btn" onclick="startRest(this, 90)">3</button>
@@ -66,6 +76,7 @@
       <iframe src="https://www.youtube.com/embed/8fXfwG4ftaQ" allowfullscreen></iframe>
     </div>
     <div class="cue">4 Sets | 8-10 Reps | 90s Rest<br>Cue: 45-degree angle, squeeze shoulder blades.</div>
+    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Drop the bench angle to 45 degrees. Press the dumbbells straight up over your upper chest.</p><p class="lvl"><b>Intermediate</b>Pin your shoulder blades together behind you as hard as you can, like you are trying to crush a grape between them. Keep them pinned the entire time. If your shoulders roll forward at the top of the press, you lose the tension on the chest.</p><p class="lvl"><b>Advanced</b>The chest is not one single muscle; the upper chest (the clavicular head) has fibers that run diagonally upward toward the collarbone. Pressing on a 45-degree incline directly opposes gravity against those specific diagonal fibers. When these grow, they push your t-shirt up right below your neck, creating the illusion of a massive upper body.</p></details>
     <button class="set-btn" onclick="startRest(this, 90)">1</button>
     <button class="set-btn" onclick="startRest(this, 90)">2</button>
     <button class="set-btn" onclick="startRest(this, 90)">3</button>
@@ -78,6 +89,7 @@
       <iframe src="https://www.youtube.com/embed/Kl3LEzQ5Zqs" allowfullscreen></iframe>
     </div>
     <div class="cue">5 Sets | 12-15 Reps | 60s Rest<br>Cue: Pour water at the top, strictly to the side.</div>
+    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Stand up straight, hold light dumbbells, and raise your arms out to the sides until they are parallel to the floor.</p><p class="lvl"><b>Intermediate</b>Maintain a slight bend in your elbows. At the very top of the movement, tilt your wrists slightly forward as if you are emptying a pitcher of water.</p><p class="lvl"><b>Advanced</b>The shoulder has three heads. The middle head (lateral deltoid) is the only one that builds physical width. If your thumb points up during a lateral raise, your front deltoid takes over. Turning the pinky upward internally rotates the humerus, completely isolating the lateral head and forcing it to take 100% of the mechanical tension.</p></details>
     <button class="set-btn" onclick="startRest(this, 60)">1</button>
     <button class="set-btn" onclick="startRest(this, 60)">2</button>
     <button class="set-btn" onclick="startRest(this, 60)">3</button>
@@ -91,6 +103,7 @@
       <iframe src="https://www.youtube.com/embed/5SrkaIbDth4" allowfullscreen></iframe>
     </div>
     <div class="cue">3 Sets | 12-15 Reps | 60s Rest<br>Cue: Pull from high to low, hug the tree.</div>
+    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Grab the high pulleys on the cable machine, step forward, and pull the handles down and together in front of your waist.</p><p class="lvl"><b>Intermediate</b>Keep your elbows slightly bent and locked in that position. Do not push the cables down; imagine wrapping your arms around a massive tree trunk.</p><p class="lvl"><b>Advanced</b>Because dumbbells only provide resistance straight down (gravity), they lose tension at the bottom of a chest movement. The cables provide constant lateral tension. Crossing your hands over each other at the bottom forces a peak contraction in the sternal head of the pectoralis, pumping maximum blood into the lower chest.</p></details>
     <button class="set-btn" onclick="startRest(this, 60)">1</button>
     <button class="set-btn" onclick="startRest(this, 60)">2</button>
     <button class="set-btn" onclick="startRest(this, 60)">3</button>
@@ -102,6 +115,7 @@
       <iframe src="https://www.youtube.com/embed/rFsSeClGnNA" allowfullscreen></iframe>
     </div>
     <div class="cue">4 Sets | 12 Reps | 60s Rest<br>Cue: Pull straight up to ears, hold 1s.</div>
+    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Grab heavy dumbbells, stand straight, and shrug your shoulders to your ears.</p><p class="lvl"><b>Intermediate</b>Pull straight up. Do not roll your shoulders backward or forward. Hold the absolute top position for one full second before lowering the weight on a slow 3-second count.</p><p class="lvl"><b>Advanced</b>The upper trapezius muscle is highly resistant to fatigue because it holds your head up all day. To force it to grow, you must use excessive mechanical overload (very heavy weight) combined with an isometric hold at the top. The hold cuts off oxygen to the muscle (metabolic stress), triggering hypertrophic adaptation.</p></details>
     <button class="set-btn" onclick="startRest(this, 60)">1</button>
     <button class="set-btn" onclick="startRest(this, 60)">2</button>
     <button class="set-btn" onclick="startRest(this, 60)">3</button>
@@ -114,6 +128,7 @@
       <iframe src="https://www.youtube.com/embed/1uOs1hP3u4A" allowfullscreen></iframe>
     </div>
     <div class="cue">3 Sets | 45s Walk | 90s Rest<br>Cue: Chest up, shoulders back, walk.</div>
+    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Pick up the heaviest dumbbells you can possibly hold without dropping them. Walk for 45 seconds.</p><p class="lvl"><b>Intermediate</b>Keep your chest puffed out and your shoulders pinned back. Do not let the heavy weight drag your posture forward into a slouch.</p><p class="lvl"><b>Advanced</b>This is an extreme time-under-tension (TUT) exercise. Your traps, forearms, and core must fire statically for 45 seconds to keep your spine from collapsing. This systemic neural overload triggers a massive localized blood flow response, completely flooding the upper back and shoulders.</p></details>
     <button class="set-btn" onclick="startRest(this, 90)">1</button>
     <button class="set-btn" onclick="startRest(this, 90)">2</button>
     <button class="set-btn" onclick="startRest(this, 90)">3</button>
@@ -121,6 +136,7 @@
 
 </div>
 
+<div class="day"><h2>After the gym</h2><div class="grid-container"><div class="exercise"><h3>Phase 2: Anabolic Window</h3><div class="when">Immediately after the workout</div><p>Mix 1 flat scoop of Dymatize whey isolate and 5 g creatine (dose 3) into 500 ml of cold tap water.</p><p class="cue">Liquid whey isolate needs no digestion and hits your bloodstream in about 15 minutes, spiking insulin. That insulin helps carry the creatine into the muscle tissue while it is searching for nutrients.</p></div><div class="exercise"><h3>Phase 3: Glycogen Reload</h3><div class="when">1 hour after the workout</div><p>Eat a big meal of dense carbs and protein, not a salad: 2 to 3 cups cooked white rice or pasta with 200 g lean meat, salted well.</p><p class="cue">The sodium pulls water into your cells and the carbs replace the glycogen you burned. A muscle trained with heavy weights over-compensates and stores more glycogen and water than before.</p></div><div class="exercise"><h3>Phase 4: Final Saturation</h3><div class="when">Right before sleep</div><p>Mix your final 5 g creatine (dose 4) with 500 ml of water and drink it.</p><p class="cue">Your body does its tissue repair during deep sleep. A final dose keeps your cells saturated with fluid while growth hormone does its job.</p></div></div><p class="cue">Creatine today: 10 g taken (morning and with lunch), 10 g still to go (doses 3 and 4).</p></div>
 <div id="timer-bar">REST: <span id="time-left">0</span>s</div>
 
 <script>
