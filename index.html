@@ -2,172 +2,400 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Width & Traps Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101214">
+<title>Gym Plan</title>
 <style>
+  :root {
+    --bg: #101214; --surface: #181b1f; --raised: #20242a; --line: #2b3038;
+    --fg: #eef1f4; --muted: #98a2ad; --accent: #4da6ff; --accent-ink: #06121f;
+    --done: #2fbf63; --done-ink: #04170b; --alert: #c0392b;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
-    background-color: #121212; color: #ffffff; font-family: sans-serif;
-    padding: 20px; padding-bottom: 100px;
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: env(safe-area-inset-top, 0) 16px calc(120px + env(safe-area-inset-bottom, 0));
   }
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  button:focus-visible, summary:focus-visible, a:focus-visible, input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
   }
-  .exercise {
-    background-color: #1e1e1e; padding: 15px; border-radius: 8px;
+
+  /* header */
+  header { padding-top: 18px; }
+  .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: none; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 999px; padding: 8px 16px; font-weight: 600; color: var(--muted);
   }
-  .exercise h2 {
-    margin-top: 0; font-size: 1.2rem; color: #4da6ff;
+  .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .tab.ghost { border-style: dashed; background: transparent; cursor: default; }
+  .title { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin: 18px 0 10px; flex-wrap: wrap; }
+  h1 { margin: 0; font-size: 1.6rem; line-height: 1.15; text-wrap: balance; }
+  .sub { color: var(--muted); font-size: .9rem; margin-top: 2px; }
+  .reset { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; color: var(--muted); font-size: .85rem; }
+  .reset.armed { border-color: var(--alert); color: #ff8b7d; }
+  .progress { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .bar { flex: 1; height: 8px; background: var(--raised); border-radius: 99px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 0; background: var(--done); transition: width .25s; }
+  .count { font-variant-numeric: tabular-nums; font-size: .9rem; color: var(--muted); min-width: 7.5em; text-align: right; }
+
+  /* exercises */
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; min-width: 0; }
+  .card.complete { border-color: #245a38; }
+  .card.complete h2 { color: var(--done); }
+  .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  h2 { margin: 0; font-size: 1.1rem; color: var(--accent); text-wrap: balance; }
+  .tally { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .85rem; flex: none; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .chip { background: var(--raised); border-radius: 6px; padding: 2px 9px; font-size: .8rem; color: var(--fg); }
+  .cue { color: var(--muted); font-size: .92rem; margin: 6px 0 10px; }
+  .video { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+  .video iframe, .video button { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video button { padding: 0; background: #000 center / cover no-repeat; display: grid; place-items: center; border: 0; }
+  .video button span { background: rgba(0,0,0,.65); border-radius: 99px; padding: 8px 18px; font-size: .9rem; }
+  .sets { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+  .set {
+    width: 56px; height: 56px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--raised); font-size: 1.1rem; font-weight: 700; font-variant-numeric: tabular-nums;
   }
-  .cue {
-    font-size: 0.9rem; color: #aaaaaa; margin-bottom: 10px;
+  .set[aria-pressed="true"] { background: var(--done); border-color: var(--done); color: var(--done-ink); }
+  .weight { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .88rem; }
+  .weight input {
+    width: 5.5em; background: var(--raised); color: var(--fg); border: 1px solid var(--line);
+    border-radius: 8px; padding: 7px 9px; font: inherit;
   }
-  .video-container {
-    width: 100%; height: 200px; background-color: #000; border-radius: 8px;
-    margin-bottom: 10px; overflow: hidden;
+  details { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 4px; }
+  summary { cursor: pointer; color: var(--accent); padding: 8px 0; font-size: .92rem; }
+  .lvl { margin: 8px 0; font-size: .9rem; color: #d3d9df; }
+  .lvl b { display: block; color: var(--accent); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+
+  /* after the gym */
+  h3.section { margin: 28px 0 12px; font-size: 1.2rem; }
+  .phase { display: flex; gap: 12px; }
+  .phase h4 { margin: 0; font-size: 1.02rem; }
+  .when { color: var(--accent); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; margin: 2px 0 6px; }
+  .phase p { margin: 4px 0; font-size: .92rem; }
+  .phase p.why { color: var(--muted); }
+  .check {
+    flex: none; width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--raised); font-size: 1.1rem; font-weight: 700;
   }
-  .video-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+  .check[aria-pressed="true"] { background: var(--done); border-color: var(--done); color: var(--done-ink); }
+
+  /* rest timer */
+  #timer {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: #000;
+    border-top: 2px solid var(--accent);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0));
   }
-  .set-btn {
-    background-color: #333333; color: white; border: none; padding: 15px;
-    margin: 5px 5px 0 0; border-radius: 5px; font-size: 1rem; width: 60px; cursor: pointer;
-  }
-  .set-btn.done { background-color: #28a745; }
-  #timer-bar {
-    position: fixed; bottom: 0; left: 0; width: 100%; background-color: #000000;
-    padding: 20px; text-align: center; font-size: 2rem; font-weight: bold;
-    border-top: 2px solid #4da6ff; display: none; z-index: 1000;
-  }
-  details { margin-top:12px; }
-  summary { cursor:pointer; color:#4da6ff; padding:6px 0; }
-  .lvl { margin:8px 0 0; font-size:.9rem; line-height:1.45; color:#dddddd; }
-  .lvl b { color:#4da6ff; display:block; font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; }
-  .day { margin-top:20px; }
-  .day h2 { font-size:1.2rem; color:#4da6ff; }
-  .day .exercise h3 { margin:0; font-size:1.05rem; }
-  .when { color:#aaaaaa; font-size:.85rem; margin:2px 0 8px; }
-  .day p { margin:6px 0; line-height:1.45; }
+  #timer.go { background: var(--alert); border-color: #ff8b7d; }
+  .timer-in { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+  .timer-main { flex: 1; min-width: 0; }
+  .timer-label { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  #timer.go .timer-label { color: #ffd2cc; }
+  #clock { font-size: 2.2rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+  .tbar { height: 4px; background: var(--raised); border-radius: 9px; margin-top: 6px; overflow: hidden; }
+  .tbar i { display: block; height: 100%; background: var(--accent); }
+  .tbtn { background: var(--raised); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-weight: 600; min-width: 48px; }
+  .tbtn.skip { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+  @media (prefers-reduced-motion: reduce) { .bar > i { transition: none; } }
 </style>
 </head>
 <body>
-
-<div class="grid-container">
-
-  <div class="exercise">
-    <h2>1. Seated Overhead Press</h2>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/k6tzKisR3NY" allowfullscreen></iframe>
+<div class="wrap">
+  <header>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Workout days"></div>
+    <div class="title">
+      <div>
+        <h1 id="day-title"></h1>
+        <div class="sub" id="day-sub"></div>
+      </div>
+      <button class="reset" id="reset" type="button">Reset day</button>
     </div>
-    <div class="cue">4 Sets | 8-10 Reps | 90s Rest<br>Cue: Sit upright, tuck elbows 30 degrees.</div>
-    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Sit on a bench with the back straight up. Press the dumbbells over your head and bring them back down to your ears.</p><p class="lvl"><b>Intermediate</b>Do not flare your elbows straight out 180 degrees. Tuck your elbows forward about 30 degrees. This creates a safer pressing path for your shoulder joint and prevents the dumbbells from pulling you backward off the bench.</p><p class="lvl"><b>Advanced</b>Flaring your elbows perfectly straight out causes acromioclavicular (AC) joint impingement, grinding the bone against the rotator cuff tendon. Tucking the elbows into the "scapular plane" aligns the humerus bone perfectly with the front and side deltoid muscle fibers, allowing you to lift heavier weight safely and force actual tissue growth.</p></details>
-    <button class="set-btn" onclick="startRest(this, 90)">1</button>
-    <button class="set-btn" onclick="startRest(this, 90)">2</button>
-    <button class="set-btn" onclick="startRest(this, 90)">3</button>
-    <button class="set-btn" onclick="startRest(this, 90)">4</button>
-  </div>
-
-  <div class="exercise">
-    <h2>2. Incline Bench Press</h2>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/8fXfwG4ftaQ" allowfullscreen></iframe>
+    <div class="progress">
+      <div class="bar"><i id="bar"></i></div>
+      <div class="count" id="count"></div>
     </div>
-    <div class="cue">4 Sets | 8-10 Reps | 90s Rest<br>Cue: 45-degree angle, squeeze shoulder blades.</div>
-    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Drop the bench angle to 45 degrees. Press the dumbbells straight up over your upper chest.</p><p class="lvl"><b>Intermediate</b>Pin your shoulder blades together behind you as hard as you can, like you are trying to crush a grape between them. Keep them pinned the entire time. If your shoulders roll forward at the top of the press, you lose the tension on the chest.</p><p class="lvl"><b>Advanced</b>The chest is not one single muscle; the upper chest (the clavicular head) has fibers that run diagonally upward toward the collarbone. Pressing on a 45-degree incline directly opposes gravity against those specific diagonal fibers. When these grow, they push your t-shirt up right below your neck, creating the illusion of a massive upper body.</p></details>
-    <button class="set-btn" onclick="startRest(this, 90)">1</button>
-    <button class="set-btn" onclick="startRest(this, 90)">2</button>
-    <button class="set-btn" onclick="startRest(this, 90)">3</button>
-    <button class="set-btn" onclick="startRest(this, 90)">4</button>
-  </div>
-
-  <div class="exercise">
-    <h2>3. Lateral Raises</h2>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/Kl3LEzQ5Zqs" allowfullscreen></iframe>
-    </div>
-    <div class="cue">5 Sets | 12-15 Reps | 60s Rest<br>Cue: Pour water at the top, strictly to the side.</div>
-    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Stand up straight, hold light dumbbells, and raise your arms out to the sides until they are parallel to the floor.</p><p class="lvl"><b>Intermediate</b>Maintain a slight bend in your elbows. At the very top of the movement, tilt your wrists slightly forward as if you are emptying a pitcher of water.</p><p class="lvl"><b>Advanced</b>The shoulder has three heads. The middle head (lateral deltoid) is the only one that builds physical width. If your thumb points up during a lateral raise, your front deltoid takes over. Turning the pinky upward internally rotates the humerus, completely isolating the lateral head and forcing it to take 100% of the mechanical tension.</p></details>
-    <button class="set-btn" onclick="startRest(this, 60)">1</button>
-    <button class="set-btn" onclick="startRest(this, 60)">2</button>
-    <button class="set-btn" onclick="startRest(this, 60)">3</button>
-    <button class="set-btn" onclick="startRest(this, 60)">4</button>
-    <button class="set-btn" onclick="startRest(this, 60)">5</button>
-  </div>
-
-  <div class="exercise">
-    <h2>4. Cable Crossovers</h2>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/5SrkaIbDth4" allowfullscreen></iframe>
-    </div>
-    <div class="cue">3 Sets | 12-15 Reps | 60s Rest<br>Cue: Pull from high to low, hug the tree.</div>
-    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Grab the high pulleys on the cable machine, step forward, and pull the handles down and together in front of your waist.</p><p class="lvl"><b>Intermediate</b>Keep your elbows slightly bent and locked in that position. Do not push the cables down; imagine wrapping your arms around a massive tree trunk.</p><p class="lvl"><b>Advanced</b>Because dumbbells only provide resistance straight down (gravity), they lose tension at the bottom of a chest movement. The cables provide constant lateral tension. Crossing your hands over each other at the bottom forces a peak contraction in the sternal head of the pectoralis, pumping maximum blood into the lower chest.</p></details>
-    <button class="set-btn" onclick="startRest(this, 60)">1</button>
-    <button class="set-btn" onclick="startRest(this, 60)">2</button>
-    <button class="set-btn" onclick="startRest(this, 60)">3</button>
-  </div>
-
-  <div class="exercise">
-    <h2>5. Heavy Shrugs</h2>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/rFsSeClGnNA" allowfullscreen></iframe>
-    </div>
-    <div class="cue">4 Sets | 12 Reps | 60s Rest<br>Cue: Pull straight up to ears, hold 1s.</div>
-    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Grab heavy dumbbells, stand straight, and shrug your shoulders to your ears.</p><p class="lvl"><b>Intermediate</b>Pull straight up. Do not roll your shoulders backward or forward. Hold the absolute top position for one full second before lowering the weight on a slow 3-second count.</p><p class="lvl"><b>Advanced</b>The upper trapezius muscle is highly resistant to fatigue because it holds your head up all day. To force it to grow, you must use excessive mechanical overload (very heavy weight) combined with an isometric hold at the top. The hold cuts off oxygen to the muscle (metabolic stress), triggering hypertrophic adaptation.</p></details>
-    <button class="set-btn" onclick="startRest(this, 60)">1</button>
-    <button class="set-btn" onclick="startRest(this, 60)">2</button>
-    <button class="set-btn" onclick="startRest(this, 60)">3</button>
-    <button class="set-btn" onclick="startRest(this, 60)">4</button>
-  </div>
-
-  <div class="exercise">
-    <h2>6. Farmer's Walks</h2>
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/1uOs1hP3u4A" allowfullscreen></iframe>
-    </div>
-    <div class="cue">3 Sets | 45s Walk | 90s Rest<br>Cue: Chest up, shoulders back, walk.</div>
-    <details><summary>How to do it</summary><p class="lvl"><b>Basic</b>Pick up the heaviest dumbbells you can possibly hold without dropping them. Walk for 45 seconds.</p><p class="lvl"><b>Intermediate</b>Keep your chest puffed out and your shoulders pinned back. Do not let the heavy weight drag your posture forward into a slouch.</p><p class="lvl"><b>Advanced</b>This is an extreme time-under-tension (TUT) exercise. Your traps, forearms, and core must fire statically for 45 seconds to keep your spine from collapsing. This systemic neural overload triggers a massive localized blood flow response, completely flooding the upper back and shoulders.</p></details>
-    <button class="set-btn" onclick="startRest(this, 90)">1</button>
-    <button class="set-btn" onclick="startRest(this, 90)">2</button>
-    <button class="set-btn" onclick="startRest(this, 90)">3</button>
-  </div>
-
+  </header>
+  <main>
+    <div class="grid" id="exercises"></div>
+    <div id="after"></div>
+  </main>
 </div>
 
-<div class="day"><h2>After the gym</h2><div class="grid-container"><div class="exercise"><h3>Phase 2: Anabolic Window</h3><div class="when">Immediately after the workout</div><p>Mix 1 flat scoop of Dymatize whey isolate and 5 g creatine (dose 3) into 500 ml of cold tap water.</p><p class="cue">Liquid whey isolate needs no digestion and hits your bloodstream in about 15 minutes, spiking insulin. That insulin helps carry the creatine into the muscle tissue while it is searching for nutrients.</p></div><div class="exercise"><h3>Phase 3: Glycogen Reload</h3><div class="when">1 hour after the workout</div><p>Eat a big meal of dense carbs and protein, not a salad: 2 to 3 cups cooked white rice or pasta with 200 g lean meat, salted well.</p><p class="cue">The sodium pulls water into your cells and the carbs replace the glycogen you burned. A muscle trained with heavy weights over-compensates and stores more glycogen and water than before.</p></div><div class="exercise"><h3>Phase 4: Final Saturation</h3><div class="when">Right before sleep</div><p>Mix your final 5 g creatine (dose 4) with 500 ml of water and drink it.</p><p class="cue">Your body does its tissue repair during deep sleep. A final dose keeps your cells saturated with fluid while growth hormone does its job.</p></div></div><p class="cue">Creatine today: 10 g taken (morning and with lunch), 10 g still to go (doses 3 and 4).</p></div>
-<div id="timer-bar">REST: <span id="time-left">0</span>s</div>
+<div id="timer" role="timer" aria-live="off" hidden>
+  <div class="timer-in">
+    <div class="timer-main">
+      <div class="timer-label" id="timer-label">Rest</div>
+      <div id="clock">0:00</div>
+      <div class="tbar"><i id="tbar"></i></div>
+    </div>
+    <button class="tbtn" id="minus" type="button" aria-label="Subtract 15 seconds">-15s</button>
+    <button class="tbtn" id="plus" type="button" aria-label="Add 15 seconds">+15s</button>
+    <button class="tbtn skip" id="skip" type="button">Skip</button>
+  </div>
+</div>
 
 <script>
-  let timer;
-  function startRest(btn, seconds) {
-    if(btn.classList.contains('done')) return;
-    btn.classList.add('done');
-
-    clearInterval(timer);
-    let time = seconds;
-    const timerBar = document.getElementById('timer-bar');
-    const timeLeft = document.getElementById('time-left');
-
-    timerBar.style.display = 'block';
-    timerBar.style.backgroundColor = '#000000';
-    timeLeft.innerText = time;
-
-    timer = setInterval(() => {
-      time--;
-      timeLeft.innerText = time;
-      if(time <= 0) {
-        clearInterval(timer);
-        timerBar.style.backgroundColor = '#8b0000';
-        timeLeft.innerText = "GO!";
-        setTimeout(() => {
-          timerBar.style.display = 'none';
-          timerBar.style.backgroundColor = '#000000';
-        }, 3000);
-      }
-    }, 1000);
+/* ---------------------------------------------------------------
+   PLAN DATA. To add a day, copy the Day 1 object and add it to DAYS.
+   --------------------------------------------------------------- */
+const DAYS = [
+  {
+    id: "d1",
+    tab: "Day 1",
+    title: "Width & Traps",
+    sub: "Shoulders, upper chest, traps. 6 exercises.",
+    exercises: [
+      { name: "Seated Dumbbell Overhead Press", video: "k6tzKisR3NY", sets: 4, reps: "8-10 reps", rest: 90,
+        cue: "Sit upright, tuck elbows 30 degrees.",
+        basic: "Sit on a bench with the back straight up. Press the dumbbells over your head and bring them back down to your ears.",
+        intermediate: "Do not flare your elbows straight out 180 degrees. Tuck your elbows forward about 30 degrees. This creates a safer pressing path for your shoulder joint and prevents the dumbbells from pulling you backward off the bench.",
+        advanced: "Flaring your elbows perfectly straight out causes acromioclavicular (AC) joint impingement, grinding the bone against the rotator cuff tendon. Tucking the elbows into the \"scapular plane\" aligns the humerus bone perfectly with the front and side deltoid muscle fibers, allowing you to lift heavier weight safely and force actual tissue growth." },
+      { name: "Incline Dumbbell Bench Press", video: "8fXfwG4ftaQ", sets: 4, reps: "8-10 reps", rest: 90,
+        cue: "45-degree angle, squeeze shoulder blades.",
+        basic: "Drop the bench angle to 45 degrees. Press the dumbbells straight up over your upper chest.",
+        intermediate: "Pin your shoulder blades together behind you as hard as you can, like you are trying to crush a grape between them. Keep them pinned the entire time. If your shoulders roll forward at the top of the press, you lose the tension on the chest.",
+        advanced: "The chest is not one single muscle; the upper chest (the clavicular head) has fibers that run diagonally upward toward the collarbone. Pressing on a 45-degree incline directly opposes gravity against those specific diagonal fibers. When these grow, they push your t-shirt up right below your neck, creating the illusion of a massive upper body." },
+      { name: "Dumbbell Lateral Raises", video: "Kl3LEzQ5Zqs", sets: 5, reps: "12-15 reps", rest: 60,
+        cue: "Pour water at the top, strictly to the side.",
+        basic: "Stand up straight, hold light dumbbells, and raise your arms out to the sides until they are parallel to the floor.",
+        intermediate: "Maintain a slight bend in your elbows. At the very top of the movement, tilt your wrists slightly forward as if you are emptying a pitcher of water.",
+        advanced: "The shoulder has three heads. The middle head (lateral deltoid) is the only one that builds physical width. If your thumb points up during a lateral raise, your front deltoid takes over. Turning the pinky upward internally rotates the humerus, completely isolating the lateral head and forcing it to take 100% of the mechanical tension." },
+      { name: "High-to-Low Cable Crossovers", video: "5SrkaIbDth4", sets: 3, reps: "12-15 reps", rest: 60,
+        cue: "Pull from high to low, hug the tree.",
+        basic: "Grab the high pulleys on the cable machine, step forward, and pull the handles down and together in front of your waist.",
+        intermediate: "Keep your elbows slightly bent and locked in that position. Do not push the cables down; imagine wrapping your arms around a massive tree trunk.",
+        advanced: "Because dumbbells only provide resistance straight down (gravity), they lose tension at the bottom of a chest movement. The cables provide constant lateral tension. Crossing your hands over each other at the bottom forces a peak contraction in the sternal head of the pectoralis, pumping maximum blood into the lower chest." },
+      { name: "Heavy Dumbbell Shrugs", video: "rFsSeClGnNA", sets: 4, reps: "12 reps", rest: 60,
+        cue: "Pull straight up to ears, hold 1s.",
+        basic: "Grab heavy dumbbells, stand straight, and shrug your shoulders to your ears.",
+        intermediate: "Pull straight up. Do not roll your shoulders backward or forward. Hold the absolute top position for one full second before lowering the weight on a slow 3-second count.",
+        advanced: "The upper trapezius muscle is highly resistant to fatigue because it holds your head up all day. To force it to grow, you must use excessive mechanical overload (very heavy weight) combined with an isometric hold at the top. The hold cuts off oxygen to the muscle (metabolic stress), triggering hypertrophic adaptation." },
+      { name: "Farmer's Walks", video: "1uOs1hP3u4A", sets: 3, reps: "45 sec walk", rest: 90,
+        cue: "Chest up, shoulders back, walk.",
+        basic: "Pick up the heaviest dumbbells you can possibly hold without dropping them. Walk for 45 seconds.",
+        intermediate: "Keep your chest puffed out and your shoulders pinned back. Do not let the heavy weight drag your posture forward into a slouch.",
+        advanced: "This is an extreme time-under-tension (TUT) exercise. Your traps, forearms, and core must fire statically for 45 seconds to keep your spine from collapsing. This systemic neural overload triggers a massive localized blood flow response, completely flooding the upper back and shoulders." }
+    ],
+    after: [
+      { name: "Anabolic Window", when: "Right after the last set",
+        what: "Mix 1 flat scoop of Dymatize whey isolate and 5 g creatine (dose 3) into 500 ml of cold tap water.",
+        why: "Liquid whey isolate needs no digestion and hits your bloodstream in about 15 minutes, spiking insulin. That insulin helps carry the creatine into the muscle tissue while it is searching for nutrients." },
+      { name: "Glycogen Reload", when: "1 hour after the workout",
+        what: "Eat a big meal of dense carbs and protein, not a salad: 2 to 3 cups cooked white rice or pasta with 200 g lean meat, salted well.",
+        why: "The sodium pulls water into your cells and the carbs replace the glycogen you burned. A muscle trained with heavy weights over-compensates and stores more glycogen and water than before." },
+      { name: "Final Saturation", when: "Right before sleep",
+        what: "Mix your final 5 g creatine (dose 4) with 500 ml of water and drink it.",
+        why: "Your body does its tissue repair during deep sleep. A final dose keeps your cells saturated with fluid while growth hormone does its job." }
+    ]
   }
+];
+
+/* ---------- storage ---------- */
+const KEY = "gym-plan-v1";
+let store = {};
+try { store = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+function dayState(d) {
+  const s = store[d.id] = store[d.id] || {};
+  s.sets = s.sets || {}; s.weights = s.weights || {}; s.after = s.after || {};
+  d.exercises.forEach((ex, i) => {
+    if (!Array.isArray(s.sets[i]) || s.sets[i].length !== ex.sets) s.sets[i] = Array(ex.sets).fill(false);
+  });
+  return s;
+}
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+function el(tag, props = {}, kids = []) {
+  const n = document.createElement(tag);
+  for (const k in props) {
+    if (k === "text") n.textContent = props[k];
+    else if (k === "class") n.className = props[k];
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), props[k]);
+    else n.setAttribute(k, props[k]);
+  }
+  kids.forEach(c => n.append(c));
+  return n;
+}
+let current = DAYS[0];
+try { const saved = localStorage.getItem(KEY + "-tab"); current = DAYS.find(d => d.id === saved) || DAYS[0]; } catch (e) {}
+
+/* ---------- render ---------- */
+function render() {
+  const st = dayState(current);
+
+  const tabs = $("tabs"); tabs.replaceChildren();
+  DAYS.forEach(d => tabs.append(el("button", {
+    class: "tab", role: "tab", type: "button", text: d.tab,
+    "aria-selected": String(d === current),
+    onclick: () => { current = d; try { localStorage.setItem(KEY + "-tab", d.id); } catch (e) {} stopTimer(); render(); }
+  })));
+  tabs.append(el("span", { class: "tab ghost", text: "More days soon" }));
+
+  $("day-title").textContent = current.tab + ": " + current.title;
+  $("day-sub").textContent = current.sub;
+
+  const grid = $("exercises"); grid.replaceChildren();
+  current.exercises.forEach((ex, i) => {
+    const card = el("section", { class: "card", id: "ex" + i });
+    const tally = el("span", { class: "tally" });
+    card.append(el("div", { class: "card-head" }, [el("h2", { text: (i + 1) + ". " + ex.name }), tally]));
+    card.append(el("div", { class: "meta" }, [
+      el("span", { class: "chip", text: ex.sets + " sets" }),
+      el("span", { class: "chip", text: ex.reps }),
+      el("span", { class: "chip", text: ex.rest + "s rest" })
+    ]));
+    card.append(el("div", { class: "cue", text: "Cue: " + ex.cue }));
+
+    const vid = el("div", { class: "video" });
+    const play = el("button", {
+      type: "button", "aria-label": "Play demo video for " + ex.name,
+      style: "background-image:url(https://i.ytimg.com/vi/" + ex.video + "/hqdefault.jpg)",
+      onclick: () => {
+        vid.replaceChildren(el("iframe", {
+          src: "https://www.youtube.com/embed/" + ex.video + "?autoplay=1&rel=0",
+          title: ex.name + " demo", allow: "autoplay; encrypted-media; picture-in-picture", allowfullscreen: ""
+        }));
+      }
+    }, [el("span", { text: "▶ Play demo" })]);
+    vid.append(play);
+    card.append(vid);
+
+    const sets = el("div", { class: "sets" });
+    st.sets[i].forEach((done, k) => {
+      sets.append(el("button", {
+        class: "set", type: "button", text: String(k + 1),
+        "aria-pressed": String(done), "aria-label": "Set " + (k + 1) + " of " + ex.sets,
+        onclick: () => {
+          const now = !st.sets[i][k];
+          st.sets[i][k] = now; save();
+          if (now) startTimer(ex.rest);
+          update();
+          sets.children[k].setAttribute("aria-pressed", String(now));
+        }
+      }));
+    });
+    card.append(sets);
+
+    const w = el("input", {
+      type: "text", inputmode: "decimal", id: "w" + i, placeholder: "kg", value: st.weights[i] || "",
+      oninput: e => { st.weights[i] = e.target.value; save(); }
+    });
+    card.append(el("label", { class: "weight", for: "w" + i }, [document.createTextNode("Weight used"), w]));
+
+    const det = el("details", {}, [el("summary", { text: "How to do it" })]);
+    [["Basic", ex.basic], ["Intermediate", ex.intermediate], ["Advanced", ex.advanced]].forEach(([l, t]) =>
+      det.append(el("p", { class: "lvl" }, [el("b", { text: l }), document.createTextNode(t)])));
+    card.append(det);
+
+    card._tally = tally;
+    grid.append(card);
+  });
+
+  const after = $("after"); after.replaceChildren();
+  if (current.after && current.after.length) {
+    after.append(el("h3", { class: "section", text: "After the gym" }));
+    const g = el("div", { class: "grid" });
+    current.after.forEach((p, i) => {
+      const chk = el("button", {
+        class: "check", type: "button", text: "✓", "aria-label": "Mark " + p.name + " done",
+        "aria-pressed": String(!!st.after[i]),
+        onclick: () => { st.after[i] = !st.after[i]; save(); chk.setAttribute("aria-pressed", String(!!st.after[i])); }
+      });
+      g.append(el("section", { class: "card phase" }, [chk, el("div", {}, [
+        el("h4", { text: p.name }), el("div", { class: "when", text: p.when }),
+        el("p", { text: p.what }), el("p", { class: "why", text: p.why })
+      ])]));
+    });
+    after.append(g);
+  }
+  update();
+}
+
+function update() {
+  const st = dayState(current);
+  let done = 0, total = 0;
+  current.exercises.forEach((ex, i) => {
+    const d = st.sets[i].filter(Boolean).length;
+    done += d; total += ex.sets;
+    const card = $("ex" + i);
+    if (card) {
+      card._tally.textContent = d + "/" + ex.sets;
+      card.classList.toggle("complete", d === ex.sets);
+    }
+  });
+  $("bar").style.width = (total ? done / total * 100 : 0) + "%";
+  $("count").textContent = done + " of " + total + " sets" + (done === total && total ? " ✓" : "");
+}
+
+/* reset with inline two-step confirm */
+let resetTimer;
+$("reset").addEventListener("click", e => {
+  const b = e.currentTarget;
+  if (!b.classList.contains("armed")) {
+    b.classList.add("armed"); b.textContent = "Tap again to clear";
+    resetTimer = setTimeout(disarm, 3000); return;
+  }
+  clearTimeout(resetTimer); disarm();
+  delete store[current.id]; save(); stopTimer(); render();
+});
+function disarm() { const b = $("reset"); b.classList.remove("armed"); b.textContent = "Reset day"; }
+
+/* ---------- rest timer (timestamp based, survives screen lock) ---------- */
+let endAt = 0, total = 0, tick = null, goUntil = 0, audio;
+function beep() {
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.25, 0.5].forEach(t => {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.frequency.value = 880; o.connect(g); g.connect(audio.destination);
+      g.gain.setValueAtTime(0.25, audio.currentTime + t);
+      g.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + t + 0.18);
+      o.start(audio.currentTime + t); o.stop(audio.currentTime + t + 0.2);
+    });
+  } catch (e) {}
+  try { navigator.vibrate && navigator.vibrate([250, 100, 250, 100, 250]); } catch (e) {}
+}
+function startTimer(sec) {
+  total = sec; endAt = Date.now() + sec * 1000; goUntil = 0;
+  try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); audio.resume && audio.resume(); } catch (e) {}
+  $("timer").hidden = false; $("timer").classList.remove("go");
+  $("timer-label").textContent = "Rest";
+  clearInterval(tick); tick = setInterval(paint, 250); paint();
+}
+function paint() {
+  const now = Date.now();
+  if (goUntil) {
+    if (now >= goUntil) return stopTimer();
+    return;
+  }
+  const left = Math.max(0, Math.ceil((endAt - now) / 1000));
+  $("clock").textContent = Math.floor(left / 60) + ":" + String(left % 60).padStart(2, "0");
+  $("tbar").style.width = Math.min(100, Math.max(0, (endAt - now) / (total * 1000) * 100)) + "%";
+  if (left <= 0) {
+    $("timer").classList.add("go");
+    $("timer-label").textContent = "Next set";
+    $("clock").textContent = "GO!";
+    goUntil = now + 4000; beep();
+  }
+}
+function stopTimer() { clearInterval(tick); goUntil = 0; $("timer").hidden = true; }
+$("skip").addEventListener("click", stopTimer);
+$("plus").addEventListener("click", () => { if (!goUntil) { endAt += 15000; total += 15; paint(); } });
+$("minus").addEventListener("click", () => { if (!goUntil) { endAt -= 15000; total = Math.max(15, total - 15); paint(); } });
+document.addEventListener("visibilitychange", () => { if (!document.hidden && tick) paint(); });
+
+render();
 </script>
 </body>
 </html>
