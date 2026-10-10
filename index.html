@@ -203,6 +203,20 @@ const DAYS = [
         what: "Mix your final 5 g creatine (dose 4) with 500 ml of water and drink it.",
         why: "Your body does its tissue repair during deep sleep. A final dose keeps your cells saturated with fluid while growth hormone does its job." }
     ]
+  },
+  {
+    id: "d2",
+    tab: "Day 2",
+    title: "V-Taper Expansion",
+    sub: "Back width and thickness. 3 exercises.",
+    exercises: [
+      { name: "Wide-Grip Lat Pulldowns", video: "CAwf7n6Luuc", sets: 4, reps: "10-12 reps", rest: 90,
+        cue: "Sit perfectly upright, drive elbows into back pockets." },
+      { name: "Chest-Supported Machine Rows", video: "0UBFWqT4bQs", sets: 4, reps: "10-12 reps", rest: 90,
+        cue: "Pin your chest to the pad, squeeze shoulder blades together." },
+      { name: "Straight-Arm Cable Pulldowns", video: "GZbfZ033f74", sets: 4, reps: "12-15 reps", rest: 60,
+        cue: "Keep elbows locked with a slight bend, stretch armpits at the top." }
+    ]
   }
 ];
 
@@ -302,7 +316,7 @@ function render() {
     const det = el("details", {}, [el("summary", { text: "How to do it" })]);
     [["Basic", ex.basic], ["Intermediate", ex.intermediate], ["Advanced", ex.advanced]].forEach(([l, t]) =>
       det.append(el("p", { class: "lvl" }, [el("b", { text: l }), document.createTextNode(t)])));
-    card.append(det);
+    if (ex.basic) card.append(det);
 
     card._tally = tally;
     grid.append(card);
