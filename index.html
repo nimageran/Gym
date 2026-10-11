@@ -228,6 +228,29 @@ const DAYS = [
         intermediate: "Keep a slight, locked bend in your elbows so your triceps don't do the work. Lean your torso forward.",
         advanced: "This is pure fascial stretching. Let the cable pull your arms up high until you feel a deep, burning stretch deep inside your armpits. The deeper the stretch at the top, the wider the lat muscle will physically grow." }
     ]
+  },
+  {
+    id: "d3",
+    tab: "Day 3",
+    title: "Lower Body",
+    sub: "Full lower-body session. 3 exercises. Day 3 of the creatine load (20 g in four doses).",
+    exercises: [
+      { name: "Sled Leg Press", video: "iqXqA1nK3F4", sets: 4, reps: "10-12 reps", rest: 120,
+        cue: "Never lock your knees. Push through your heels.",
+        basic: "Sit in the machine, place your feet shoulder-width apart on the platform, lower the weight toward your chest, and push it back up.",
+        intermediate: "Never lock your knees straight at the top of the movement. If you lock out, the entire mechanical load shifts from your muscles onto your knee joints. Keep a slight bend at the top. Push entirely through your heels, not your toes.",
+        advanced: "Depth dictates growth. Bring your knees down as close to your chest as possible to stretch the glute and quad fascia. However, the exact millimeter your lower back starts to curl off the bottom pad, stop and push. If you let your lower back round at the bottom under heavy weight, you risk herniating a spinal disc." },
+      { name: "Machine Leg Extensions", video: "50sY-E3KxQ4", sets: 4, reps: "12-15 reps", rest: 90,
+        cue: "Toes back toward shins, squeeze at the top for 1 second.",
+        basic: "Sit on the machine, lock your shins behind the bottom pad, and kick your legs straight up until they are fully extended.",
+        intermediate: "Pull your toes back toward your shins (dorsiflexion) while you kick. Squeeze your quads at the very top and hold the weight completely still for 1 full second before lowering it.",
+        advanced: "This is a pure isolation movement targeting the rectus femoris. Because the quads are massive, they will flood with lactic acid by rep 8, creating an extreme chemical burn. The burn is a warning signal and does not mean the muscle has failed. Push through it to hit rep 15." },
+      { name: "Seated Leg Curls", video: "ItM8TzXU7_4", sets: 4, reps: "10-12 reps", rest: 90,
+        cue: "Pull down in 1 second, return in 3 seconds.",
+        basic: "Sit on the hamstring machine, lock your ankles on top of the pad, and pull your heels backward under the seat.",
+        intermediate: "Lock the thigh pad down so tightly against your legs that you cannot lift your body out of the seat. If your hips slide forward, you are using your body weight to cheat the movement instead of pulling with your hamstrings.",
+        advanced: "The hamstrings are fast-twitch dominant muscles that are prone to tearing. Control the negative. Pull the weight down explosively in 1 second, but resist the weight on the way up, taking 3 full seconds to return to the starting position. This eccentric load causes maximum hypertrophic damage without snapping the tendon." }
+    ]
   }
 ];
 /* Day 2 fueling: potatoes before the gym, egg whites after, fish at night */
@@ -246,6 +269,27 @@ DAYS[1].after = [
   { name: "Fish and Final Creatine", when: "Tonight, before sleep",
     what: "Eat the fish and take your fourth and final 5 g creatine dose (dose 4).",
     why: "The amino acids from the fish feed your muscles while you sleep." }
+];
+
+/* Day 3 fueling: no work day, so the timing is fully under your control */
+DAYS[2].before = [
+  { name: "Morning Creatine", when: "The second your feet hit the floor",
+    what: "Take your first 5 g creatine dose (dose 1).",
+    why: "Tomorrow's 20 g load pushes your cells to the top of the saturation phase. Use heavy salt on your food today." },
+  { name: "Pre-Workout Meal", when: "90 minutes before the gym",
+    what: "Eat your carbohydrate meal, heavily salted, and take your second 5 g creatine dose (dose 2).",
+    why: "The 90-minute carbohydrate timing fuels the leg session. You control your kitchen and your clock today, so no skipping it." }
+];
+DAYS[2].after = [
+  { name: "Dry Shaker", when: "The minute you finish the seated leg curls",
+    what: "At the Planet Fitness fountain, drink your dry shaker: whey isolate plus your third 5 g creatine dose (dose 3).",
+    why: "Fast whey and creatine start repair right away." },
+  { name: "Post-Workout Meal", when: "1 hour after the shaker, at home",
+    what: "Go straight home. Eat egg whites (no yolks) and heavily salted potatoes, the same meal as Day 2.",
+    why: "The potatoes spike insulin and drive the nutrients into your legs." },
+  { name: "Night Meal", when: "Evening",
+    what: "Take your fourth and final 5 g creatine dose (dose 4) with your night meal. No caffeine after 6:00 PM.",
+    why: "This completes the 20 g for the day. Caffeine late in the day hurts the sleep your legs recover in." }
 ];
 
 /* ---------- storage ---------- */
