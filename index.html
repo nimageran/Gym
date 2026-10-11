@@ -133,6 +133,7 @@
     </div>
   </header>
   <main>
+    <div id="before"></div>
     <div class="grid" id="exercises"></div>
     <div id="after"></div>
   </main>
@@ -229,8 +230,23 @@ const DAYS = [
     ]
   }
 ];
-/* Day 2 uses the same fueling steps as Day 1 */
-DAYS[1].after = DAYS[0].after;
+/* Day 2 fueling: potatoes before the gym, egg whites after, fish at night */
+DAYS[1].before = [
+  { name: "Pre-Workout Meal", when: "Before you leave for the gym",
+    what: "Eat the air-fryer potatoes and take your second 5 g creatine dose (dose 2) with them.",
+    why: "Complex carbohydrates now give you the fuel for heavy pulling." }
+];
+DAYS[1].after = [
+  { name: "Dry Shaker", when: "The minute you finish the straight-arm pulldowns",
+    what: "At the gym water fountain, drink your dry shaker: whey isolate plus your third 5 g creatine dose (dose 3).",
+    why: "This is the bridge between the gym and the egg whites. Fast whey and creatine start repair right away." },
+  { name: "Post-Workout Meal", when: "Back home after the gym",
+    what: "Eat the remaining potatoes with pure egg whites. Throw away every single yolk.",
+    why: "Egg white albumin digests fast and repairs torn tissue. With fat at zero, the insulin spike from the potatoes shunts the protein straight into the muscle with no digestive delay." },
+  { name: "Fish and Final Creatine", when: "Tonight, before sleep",
+    what: "Eat the fish and take your fourth and final 5 g creatine dose (dose 4).",
+    why: "The amino acids from the fish feed your muscles while you sleep." }
+];
 
 /* ---------- storage ---------- */
 const KEY = "gym-plan-v1";
@@ -239,7 +255,7 @@ try { store = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
 function dayState(d) {
   const s = store[d.id] = store[d.id] || {};
-  s.sets = s.sets || {}; s.weights = s.weights || {}; s.after = s.after || {};
+  s.sets = s.sets || {}; s.weights = s.weights || {}; s.after = s.after || {}; s.before = s.before || {};
   d.exercises.forEach((ex, i) => {
     if (!Array.isArray(s.sets[i]) || s.sets[i].length !== ex.sets) s.sets[i] = Array(ex.sets).fill(false);
   });
@@ -335,24 +351,28 @@ function render() {
     grid.append(card);
   });
 
-  const after = $("after"); after.replaceChildren();
-  if (current.after && current.after.length) {
-    after.append(el("h3", { class: "section", text: "After the gym" }));
-    const g = el("div", { class: "grid" });
-    current.after.forEach((p, i) => {
-      const chk = el("button", {
-        class: "check", type: "button", text: "✓", "aria-label": "Mark " + p.name + " done",
-        "aria-pressed": String(!!st.after[i]),
-        onclick: () => { st.after[i] = !st.after[i]; save(); chk.setAttribute("aria-pressed", String(!!st.after[i])); }
-      });
-      g.append(el("section", { class: "card phase" }, [chk, el("div", {}, [
-        el("h4", { text: p.name }), el("div", { class: "when", text: p.when }),
-        el("p", { text: p.what }), el("p", { class: "why", text: p.why })
-      ])]));
-    });
-    after.append(g);
-  }
+  renderPhases($("before"), "Before the gym", current.before, st.before);
+  renderPhases($("after"), "After the gym", current.after, st.after);
   update();
+}
+
+function renderPhases(box, heading, list, checked) {
+  box.replaceChildren();
+  if (!list || !list.length) return;
+  box.append(el("h3", { class: "section", text: heading }));
+  const g = el("div", { class: "grid" });
+  list.forEach((p, i) => {
+    const chk = el("button", {
+      class: "check", type: "button", text: "\u2713", "aria-label": "Mark " + p.name + " done",
+      "aria-pressed": String(!!checked[i]),
+      onclick: () => { checked[i] = !checked[i]; save(); chk.setAttribute("aria-pressed", String(!!checked[i])); }
+    });
+    g.append(el("section", { class: "card phase" }, [chk, el("div", {}, [
+      el("h4", { text: p.name }), el("div", { class: "when", text: p.when }),
+      el("p", { text: p.what }), el("p", { class: "why", text: p.why })
+    ])]));
+  });
+  box.append(g);
 }
 
 function update() {
