@@ -251,6 +251,19 @@ const DAYS = [
         intermediate: "Lock the thigh pad down so tightly against your legs that you cannot lift your body out of the seat. If your hips slide forward, you are using your body weight to cheat the movement instead of pulling with your hamstrings.",
         advanced: "The hamstrings are fast-twitch dominant muscles that are prone to tearing. Control the negative. Pull the weight down explosively in 1 second, but resist the weight on the way up, taking 3 full seconds to return to the starting position. This eccentric load causes maximum hypertrophic damage without snapping the tendon." }
     ]
+  },
+  {
+    id: "d4",
+    tab: "Day 4",
+    title: "Rest Day",
+    sub: "Programmed deload. No gym, no weights. Work day.",
+    exercises: [],
+    notes: {
+      title: "Why today is a rest day",
+      basic: "Today is a complete physical rest day. You do not touch a single weight and you do not go to Planet Fitness. Go to your office, work your shift, come home, and do nothing physical.",
+      intermediate: "Avoiding the gym does not pause the protocol. Your calorie and creatine needs stay just as high. You still take your 20 g of creatine in four 5 g doses (morning, lunch, afternoon, night). You still eat large amounts of complex carbohydrates and pure lean protein, and you still separate the eggs and throw away every yolk to keep dietary fat at zero.",
+      advanced: "Growth happens during the supercompensation phase, which needs a total break from mechanical tension. Your central nervous system is taxed from the lower-body session and your upper-body fascia is still repairing from the weekend. While you sit at your desk, the 24-hour deload and the insulin spikes from your food help move the final 20 g of creatine into your muscles. This brings your cells to full saturation before you return to the gym on Wednesday."
+    }
   }
 ];
 /* Day 2 fueling: potatoes before the gym, egg whites after, fish at night */
@@ -290,6 +303,26 @@ DAYS[2].after = [
   { name: "Night Meal", when: "Evening",
     what: "Take your fourth and final 5 g creatine dose (dose 4) with your night meal. No caffeine after 6:00 PM.",
     why: "This completes the 20 g for the day. Caffeine late in the day hurts the sleep your legs recover in." }
+];
+
+/* Day 4: rest day checklist */
+DAYS[3].beforeTitle = "Today's checklist";
+DAYS[3].before = [
+  { name: "Morning Creatine", when: "The second you wake up",
+    what: "Take your first 5 g creatine dose (dose 1).",
+    why: "Part of the 20 g load, in four 5 g doses." },
+  { name: "Lunch Creatine", when: "Lunch",
+    what: "Take your second 5 g creatine dose (dose 2) with lunch.",
+    why: "Keeps the load spread evenly through the day." },
+  { name: "Afternoon Creatine", when: "Afternoon",
+    what: "Take your third 5 g creatine dose (dose 3).",
+    why: "Keeps the load spread evenly through the day." },
+  { name: "Night Creatine", when: "Night",
+    what: "Take your fourth and final 5 g creatine dose (dose 4).",
+    why: "Completes the 20 g for the day." },
+  { name: "Food, All Day", when: "Every meal",
+    what: "Eat large amounts of complex carbohydrates and pure lean protein. Separate the eggs and throw away every yolk.",
+    why: "Fat stays at zero while the insulin spikes from your food help move creatine into the muscle." }
 ];
 
 /* ---------- storage ---------- */
@@ -394,8 +427,15 @@ function render() {
     card._tally = tally;
     grid.append(card);
   });
+  if (current.notes) {
+    const n = current.notes;
+    const card = el("section", { class: "card" }, [el("h2", { text: n.title })]);
+    [["Basic", n.basic], ["Intermediate", n.intermediate], ["Advanced", n.advanced]].forEach(([l, t]) =>
+      card.append(el("p", { class: "lvl" }, [el("b", { text: l }), document.createTextNode(t)])));
+    grid.append(card);
+  }
 
-  renderPhases($("before"), "Before the gym", current.before, st.before);
+  renderPhases($("before"), current.beforeTitle || "Before the gym", current.before, st.before);
   renderPhases($("after"), "After the gym", current.after, st.after);
   update();
 }
@@ -431,6 +471,7 @@ function update() {
       card.classList.toggle("complete", d === ex.sets);
     }
   });
+  document.querySelector(".progress").style.display = total ? "" : "none";
   $("bar").style.width = (total ? done / total * 100 : 0) + "%";
   $("count").textContent = done + " of " + total + " sets" + (done === total && total ? " ✓" : "");
 }
