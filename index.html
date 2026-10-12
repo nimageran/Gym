@@ -40,6 +40,8 @@
     border-radius: 999px; padding: 8px 16px; font-weight: 600; color: var(--muted);
   }
   .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .tab.rest { background: #1f1b2e; border-color: #4a3f73; color: #b9a8ff; border-style: dashed; }
+  .tab.rest[aria-selected="true"] { background: #b9a8ff; color: #181326; border-color: #b9a8ff; border-style: solid; }
   .tab.ghost { border-style: dashed; background: transparent; cursor: default; }
   .title { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin: 18px 0 10px; flex-wrap: wrap; }
   h1 { margin: 0; font-size: 1.6rem; line-height: 1.15; text-wrap: balance; }
@@ -255,6 +257,7 @@ const DAYS = [
   {
     id: "d4",
     tab: "Day 4",
+    restDay: true,
     title: "Rest Day",
     sub: "Programmed deload. No gym, no weights. Work day.",
     exercises: [],
@@ -361,7 +364,7 @@ function render() {
 
   const tabs = $("tabs"); tabs.replaceChildren();
   DAYS.forEach(d => tabs.append(el("button", {
-    class: "tab", role: "tab", type: "button", text: d.tab,
+    class: "tab" + (d.restDay ? " rest" : ""), role: "tab", type: "button", text: (d.restDay ? "\u263E " : "") + d.tab,
     "aria-selected": String(d === current),
     onclick: () => { current = d; try { localStorage.setItem(KEY + "-tab", d.id); } catch (e) {} stopTimer(); render(); }
   })));
