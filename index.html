@@ -15,7 +15,7 @@
   :root {
     --bg: #101214; --surface: #181b1f; --raised: #20242a; --line: #2b3038;
     --fg: #eef1f4; --muted: #98a2ad; --accent: #4da6ff; --accent-ink: #06121f;
-    --done: #2fbf63; --done-ink: #04170b; --alert: #c0392b;
+    --done: #a24cf0; --done-ink: #ffffff; --alert: #c0392b;
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
@@ -56,8 +56,13 @@
   /* exercises */
   .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; min-width: 0; }
-  .card.complete { border-color: #245a38; }
-  .card.complete h2 { color: var(--done); }
+  .card.complete {
+    background: linear-gradient(160deg, #26123f, #170d29);
+    border-color: #b25cff;
+    box-shadow: 0 0 0 1px #b25cff, 0 0 14px rgba(178,92,255,.6), 0 0 34px rgba(178,92,255,.3), inset 0 0 22px rgba(178,92,255,.2);
+  }
+  .card.complete h2 { color: #e2c2ff; text-shadow: 0 0 10px rgba(178,92,255,.8); }
+  .card.complete .tally { color: #e2c2ff; }
   .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
   h2 { margin: 0; font-size: 1.1rem; color: var(--accent); text-wrap: balance; }
   .tally { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .85rem; flex: none; }
@@ -73,7 +78,7 @@
     width: 56px; height: 56px; border-radius: 12px; border: 1px solid var(--line);
     background: var(--raised); font-size: 1.1rem; font-weight: 700; font-variant-numeric: tabular-nums;
   }
-  .set[aria-pressed="true"] { background: var(--done); border-color: var(--done); color: var(--done-ink); }
+  .set[aria-pressed="true"] { background: var(--done); border-color: #c58bff; color: var(--done-ink); box-shadow: 0 0 10px rgba(178,92,255,.6); }
   .fuel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; font-size: .88rem; }
   .fuel-top { display: flex; flex-wrap: wrap; gap: 6px 18px; }
   .fuel b { color: var(--accent); font-weight: 600; }
