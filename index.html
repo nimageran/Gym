@@ -268,6 +268,40 @@ const DAYS = [
       advanced: "Growth happens during the supercompensation phase, which needs a total break from mechanical tension. Your central nervous system is taxed from the lower-body session and your upper-body fascia is still repairing from the weekend. While you sit at your desk, the 24-hour deload and the insulin spikes from your food help move the final 20 g of creatine into your muscles. This brings your cells to full saturation before you return to the gym on Wednesday."
     }
   }
+  ,{
+    id: "d5",
+    tab: "Day 5",
+    title: "Chest & Shoulders, Heavier",
+    sub: "Same 6 exercises as Day 1, made harder with three new rules.",
+    exercises: [
+      { name: "Incline Dumbbell Press (Upper Chest)", video: "8fXfwG4ftaQ", sets: 4, reps: "10-12 reps", rest: 90,
+        cue: "30-degree bench, lower over 3 seconds. Drop set on set 4.",
+        how: "Set the bench to a 30-degree angle (two notches up). Tuck your elbows slightly at a 45-degree angle. Lower the dumbbells slowly over 3 seconds all the way down to chest level, then press straight up without locking your elbows. Do a drop set on Set 4." },
+      { name: "Seated Machine Chest Press (Mid-Chest Thickness)", video: "VHIlmOPMWWs", sets: 4, reps: "10-12 reps", rest: 90,
+        cue: "Handles at mid-chest, 3 seconds back. Drop set on set 4.",
+        how: "Adjust the seat so the handles line up with the middle of your chest. Pull your shoulders back against the pad, keep your elbows slightly below your shoulders, and press forward. Take 3 full seconds to let the handles come back. Do a drop set on Set 4." },
+      { name: "Pec Deck Machine Flyes (Outer Chest Stretch)", video: "a9vQ_hwIksU", sets: 3, reps: "12-15 reps", rest: 60,
+        cue: "Squeeze 1 second, open slowly over 3 seconds. Drop set on set 3.",
+        how: "Sit tall with your chest pushed out and a slight bend in your elbows. Bring the handles together in front of your chest and squeeze hard for 1 full second. Let your arms open slowly over 3 seconds until you feel a deep stretch across your chest. Do a drop set on Set 3." },
+      { name: "Seated Dumbbell Shoulder Press (Shoulder Size)", video: "k6tzKisR3NY", sets: 4, reps: "10-12 reps", rest: 90,
+        cue: "Dumbbells at ear level, lower over 3 seconds. Drop set on set 4.",
+        how: "Set the bench nearly upright (one notch back from straight 90 degrees). Start with the dumbbells at ear level and press straight overhead. Lower them slowly over 3 seconds back to your ears. Do a drop set on Set 4." },
+      { name: "Dumbbell Lateral Raises (Side Shoulder Width, V-Taper)", video: "lMYs7FY8os4", sets: 4, reps: "12-15 reps", rest: 60,
+        cue: "No swinging, lower over 3 seconds. Drop set on set 4.",
+        how: "Stand straight, lean slightly forward, and raise the dumbbells out to your sides until your elbows reach shoulder height. Do not swing your body. Lower them slowly over 3 seconds. Do a drop set on Set 4." },
+      { name: "Heavy Dumbbell Shrugs + Farmer's Walk (Upper Traps & Frame)", video: "rFsSeClGnNA", sets: 4, reps: "12-15 shrugs + 30 sec walk", rest: 60,
+        cue: "Hold 1 second at the top, then walk until your grip gives out.",
+        how: "Grab heavy dumbbells, pull your shoulders straight up toward your ears, and hold at the top for 1 full second on every rep. After rep 15, do not drop the weights. Walk across the gym floor for 30 seconds until your grip gives out." }
+    ],
+    notes: {
+      title: "How today is harder than Day 1",
+      items: [
+        ["Increase the weight", "Your muscles are now loaded with creatine and water. Add 5 lbs to your dumbbells and move the pin down 1 plate on every machine compared to what you lifted on Day 1."],
+        ["3-second lowering rule", "Do not let the weights drop fast. Count 3 full seconds while lowering the weight on every single rep."],
+        ["Final-set drop sets, no rest", "On the last set of every exercise, push until you cannot do another rep. Then immediately grab a weight that is 30% lighter with zero rest and keep going until your arms completely fail."]
+      ]
+    }
+  }
 ];
 /* Day 2 fueling: potatoes before the gym, egg whites after, fish at night */
 DAYS[1].before = [
@@ -423,9 +457,9 @@ function render() {
     card.append(el("label", { class: "weight", for: "w" + i }, [document.createTextNode("Weight used"), w]));
 
     const det = el("details", {}, [el("summary", { text: "How to do it" })]);
-    [["Basic", ex.basic], ["Intermediate", ex.intermediate], ["Advanced", ex.advanced]].forEach(([l, t]) =>
+    (ex.how ? [["What to do", ex.how]] : [["Basic", ex.basic], ["Intermediate", ex.intermediate], ["Advanced", ex.advanced]]).forEach(([l, t]) =>
       det.append(el("p", { class: "lvl" }, [el("b", { text: l }), document.createTextNode(t)])));
-    if (ex.basic) card.append(det);
+    if (ex.basic || ex.how) card.append(det);
 
     card._tally = tally;
     grid.append(card);
@@ -433,7 +467,7 @@ function render() {
   if (current.notes) {
     const n = current.notes;
     const card = el("section", { class: "card" }, [el("h2", { text: n.title })]);
-    [["Basic", n.basic], ["Intermediate", n.intermediate], ["Advanced", n.advanced]].forEach(([l, t]) =>
+    (n.items || [["Basic", n.basic], ["Intermediate", n.intermediate], ["Advanced", n.advanced]]).forEach(([l, t]) =>
       card.append(el("p", { class: "lvl" }, [el("b", { text: l }), document.createTextNode(t)])));
     grid.append(card);
   }
