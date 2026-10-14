@@ -292,11 +292,11 @@ const DAYS = [
         cue: "30-degree bench, lower over 3 seconds. Drop set on set 4.",
         how: "Set the bench to a 30-degree angle (two notches up). Tuck your elbows slightly at a 45-degree angle. Lower the dumbbells slowly over 3 seconds all the way down to chest level, then press straight up without locking your elbows. Do a drop set on Set 4." },
       { name: "Seated Machine Chest Press (Mid-Chest Thickness)", video: "VHIlmOPMWWs", sets: 4, reps: "10-12 reps", rest: 90,
-        dropHint: "Machine: pull the pin and move it 2 to 3 plates lighter right after your last rep.",
+        dropHint: "Machine: pull the pin and move it 2 plates lighter right after your last rep.",
         cue: "Handles at mid-chest, 3 seconds back. Drop set on set 4.",
         how: "Adjust the seat so the handles line up with the middle of your chest. Pull your shoulders back against the pad, keep your elbows slightly below your shoulders, and press forward. Take 3 full seconds to let the handles come back. Do a drop set on Set 4." },
       { name: "Pec Deck Machine Flyes (Outer Chest Stretch)", video: "a9vQ_hwIksU", sets: 3, reps: "12-15 reps", rest: 60,
-        dropHint: "Machine: pull the pin and move it 2 to 3 plates lighter right after your last rep.",
+        dropHint: "Machine: pull the pin and move it 2 plates lighter right after your last rep.",
         cue: "Squeeze 1 second, open slowly over 3 seconds. Drop set on set 3.",
         how: "Sit tall with your chest pushed out and a slight bend in your elbows. Bring the handles together in front of your chest and squeeze hard for 1 full second. Let your arms open slowly over 3 seconds until you feel a deep stretch across your chest. Do a drop set on Set 3." },
       { name: "Seated Dumbbell Shoulder Press (Shoulder Size)", video: "k6tzKisR3NY", sets: 4, reps: "10-12 reps", rest: 90,
@@ -391,19 +391,22 @@ DAYS[4].before = [
     what: "Drink 1 liter of water. Zero fatty food or donuts.",
     why: "Keep fat low and stay hydrated before the gym." },
   { name: "Pre-Workout Meal", when: "12:30 PM (90 minutes before the gym)",
-    what: "Eat a large plate of potatoes or rice with fish, and take 5 g creatine (dose 2).",
+    what: "Eat a large plate of potatoes or rice with lean protein (fish, chicken, or egg whites), and take 5 g creatine (dose 2) with water. Before you leave, pack your dry shaker in your gym bag (1 scoop whey + 5 g creatine, dose 3).",
     why: "Carbohydrates now fuel the session at 2:00 PM." }
 ];
 DAYS[4].after = [
   { name: "Post-Workout Shaker", when: "3:00 PM, at the gym fountain",
-    what: "Right after your last set, drink 1 scoop chocolate whey with 5 g creatine (dose 3) in water.",
+    what: "Fill your dry shaker with water (1 scoop chocolate whey + 5 g creatine, dose 3) and drink it immediately after your last set.",
     why: "Fast protein and creatine start repair right away." },
   { name: "Post-Workout Solid Meal", when: "4:00 PM (1 hour after the shaker)",
-    what: "Eat heavily salted potatoes or rice with 4 to 6 pure egg whites. Zero yolks, zero fat.",
+    what: "Eat heavily salted potatoes or rice with 1 cup (250 ml) liquid egg whites. Zero yolks, zero fat.",
     why: "Carbs and protein with no fat refill the muscle." },
   { name: "Final Night Meal", when: "8:30 PM",
-    what: "Eat white fish and take 5 g creatine (dose 4). This finishes your 5-day 20 g loading phase.",
-    why: "Completes the loading phase." }
+    what: "Eat white fish or chicken with salted cucumbers, and take 5 g creatine (dose 4). This finishes your 5-day 20 g loading phase.",
+    why: "Completes the loading phase." },
+  { name: "Sleep", when: "10:00 PM",
+    what: "Lights out. Recovery happens while you sleep.",
+    why: "Tissue repair and growth hormone release happen during deep sleep." }
 ];
 
 /* Daily creatine and whey summary shown at the top of each day */
@@ -412,7 +415,7 @@ DAYS[0].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses:
 DAYS[1].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["Morning", "Pre-workout (potatoes)", "Post-workout shaker", "Night meal (fish)"] };
 DAYS[2].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["8:30 AM, morning", "9:30 AM, pre-workout potatoes", "11:45 AM, post-workout shaker", "8:00 PM, night fish"] };
 DAYS[3].fuel = { creatine: "20 g", whey: "0 scoops (solid food only)", doses: ["Morning", "Work lunch", "6:55 PM, potatoes, rice, fish", "8:40 PM, night fish"] };
-DAYS[4].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["6:45 AM, breakfast", "12:30 PM, pre-workout meal", "3:00 PM, post-workout shaker", "8:30 PM, night fish"] };
+DAYS[4].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["6:45 AM, breakfast", "12:30 PM, pre-workout meal", "3:00 PM, post-workout shaker", "8:30 PM, night fish or chicken"] };
 
 /* ---------- storage ---------- */
 const KEY = "gym-plan-v1";
