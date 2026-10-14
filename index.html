@@ -74,6 +74,8 @@
     background: var(--raised); font-size: 1.1rem; font-weight: 700; font-variant-numeric: tabular-nums;
   }
   .set[aria-pressed="true"] { background: var(--done); border-color: var(--done); color: var(--done-ink); }
+  .weights { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  .hint { color: var(--muted); font-size: .82rem; margin-top: 6px; }
   .weight { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .88rem; }
   .weight input {
     width: 5.5em; background: var(--raised); color: var(--fg); border: 1px solid var(--line);
@@ -272,21 +274,26 @@ const DAYS = [
     id: "d5",
     tab: "Day 5",
     title: "Chest & Shoulders, Heavier",
-    sub: "Same 6 exercises as Day 1, made harder with three new rules.",
+    sub: "Same 6 exercises as Day 1, made harder with three new rules. Gym at 2:00 PM.",
     exercises: [
       { name: "Incline Dumbbell Press (Upper Chest)", video: "8fXfwG4ftaQ", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "Dumbbells: grab the pair 2 steps lighter on the rack (main set 40 lbs, take the 25 or 30 lbs) right after your last rep.",
         cue: "30-degree bench, lower over 3 seconds. Drop set on set 4.",
         how: "Set the bench to a 30-degree angle (two notches up). Tuck your elbows slightly at a 45-degree angle. Lower the dumbbells slowly over 3 seconds all the way down to chest level, then press straight up without locking your elbows. Do a drop set on Set 4." },
       { name: "Seated Machine Chest Press (Mid-Chest Thickness)", video: "VHIlmOPMWWs", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "Machine: pull the pin and move it 2 to 3 plates lighter right after your last rep.",
         cue: "Handles at mid-chest, 3 seconds back. Drop set on set 4.",
         how: "Adjust the seat so the handles line up with the middle of your chest. Pull your shoulders back against the pad, keep your elbows slightly below your shoulders, and press forward. Take 3 full seconds to let the handles come back. Do a drop set on Set 4." },
       { name: "Pec Deck Machine Flyes (Outer Chest Stretch)", video: "a9vQ_hwIksU", sets: 3, reps: "12-15 reps", rest: 60,
+        dropHint: "Machine: pull the pin and move it 2 to 3 plates lighter right after your last rep.",
         cue: "Squeeze 1 second, open slowly over 3 seconds. Drop set on set 3.",
         how: "Sit tall with your chest pushed out and a slight bend in your elbows. Bring the handles together in front of your chest and squeeze hard for 1 full second. Let your arms open slowly over 3 seconds until you feel a deep stretch across your chest. Do a drop set on Set 3." },
       { name: "Seated Dumbbell Shoulder Press (Shoulder Size)", video: "k6tzKisR3NY", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "Dumbbells: grab the pair 2 steps lighter on the rack (main set 40 lbs, take the 25 or 30 lbs) right after your last rep.",
         cue: "Dumbbells at ear level, lower over 3 seconds. Drop set on set 4.",
         how: "Set the bench nearly upright (one notch back from straight 90 degrees). Start with the dumbbells at ear level and press straight overhead. Lower them slowly over 3 seconds back to your ears. Do a drop set on Set 4." },
       { name: "Dumbbell Lateral Raises (Side Shoulder Width, V-Taper)", video: "lMYs7FY8os4", sets: 4, reps: "12-15 reps", rest: 60,
+        dropHint: "Dumbbells: grab the pair 2 steps lighter on the rack (main set 40 lbs, take the 25 or 30 lbs) right after your last rep.",
         cue: "No swinging, lower over 3 seconds. Drop set on set 4.",
         how: "Stand straight, lean slightly forward, and raise the dumbbells out to your sides until your elbows reach shoulder height. Do not swing your body. Lower them slowly over 3 seconds. Do a drop set on Set 4." },
       { name: "Heavy Dumbbell Shrugs + Farmer's Walk (Upper Traps & Frame)", video: "rFsSeClGnNA", sets: 4, reps: "12-15 shrugs + 30 sec walk", rest: 60,
@@ -362,6 +369,31 @@ DAYS[3].before = [
     why: "Fat stays at zero while the insulin spikes from your food help move creatine into the muscle." }
 ];
 
+/* Day 5 fueling: follows the 4-dose workout pattern */
+DAYS[4].beforeTitle = "Before the gym";
+DAYS[4].before = [
+  { name: "Morning Dose", when: "6:45 AM",
+    what: "Eat breakfast (carbs + protein) and take 5 g creatine (dose 1).",
+    why: "Start of the 4-dose, 20 g day." },
+  { name: "Safety Training", when: "8:00 AM to 12:00 PM",
+    what: "Drink 1 liter of water. Zero fatty food or donuts.",
+    why: "Keep fat low and stay hydrated before the gym." },
+  { name: "Pre-Workout Meal", when: "12:30 PM (90 minutes before the gym)",
+    what: "Eat a large plate of potatoes or rice with fish, and take 5 g creatine (dose 2).",
+    why: "Carbohydrates now fuel the session at 2:00 PM." }
+];
+DAYS[4].after = [
+  { name: "Post-Workout Shaker", when: "3:00 PM, at the gym fountain",
+    what: "Right after your last set, drink 1 scoop chocolate whey with 5 g creatine (dose 3) in water.",
+    why: "Fast protein and creatine start repair right away." },
+  { name: "Post-Workout Solid Meal", when: "4:00 PM (1 hour after the shaker)",
+    what: "Eat heavily salted potatoes or rice with 4 to 6 pure egg whites. Zero yolks, zero fat.",
+    why: "Carbs and protein with no fat refill the muscle." },
+  { name: "Final Night Meal", when: "8:30 PM",
+    what: "Eat white fish and take 5 g creatine (dose 4). This finishes your 5-day 20 g loading phase.",
+    why: "Completes the loading phase." }
+];
+
 /* ---------- storage ---------- */
 const KEY = "gym-plan-v1";
 let store = {};
@@ -369,7 +401,7 @@ try { store = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
 function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
 function dayState(d) {
   const s = store[d.id] = store[d.id] || {};
-  s.sets = s.sets || {}; s.weights = s.weights || {}; s.after = s.after || {}; s.before = s.before || {};
+  s.sets = s.sets || {}; s.weights = s.weights || {}; s.after = s.after || {}; s.before = s.before || {}; s.drops = s.drops || {};
   d.exercises.forEach((ex, i) => {
     if (!Array.isArray(s.sets[i]) || s.sets[i].length !== ex.sets) s.sets[i] = Array(ex.sets).fill(false);
   });
@@ -451,10 +483,21 @@ function render() {
     card.append(sets);
 
     const w = el("input", {
-      type: "text", inputmode: "decimal", id: "w" + i, placeholder: "kg", value: st.weights[i] || "",
+      type: "text", inputmode: "decimal", id: "w" + i, placeholder: "lbs", value: st.weights[i] || "",
       oninput: e => { st.weights[i] = e.target.value; save(); }
     });
-    card.append(el("label", { class: "weight", for: "w" + i }, [document.createTextNode("Weight used"), w]));
+    const wrow = el("div", { class: "weights" }, [
+      el("label", { class: "weight", for: "w" + i }, [document.createTextNode("Weight used"), w])
+    ]);
+    if (ex.dropHint) {
+      const dw = el("input", {
+        type: "text", inputmode: "decimal", id: "dw" + i, placeholder: "lbs", value: st.drops[i] || "",
+        oninput: e => { st.drops[i] = e.target.value; save(); }
+      });
+      wrow.append(el("label", { class: "weight", for: "dw" + i }, [document.createTextNode("Drop-set weight"), dw]));
+    }
+    card.append(wrow);
+    if (ex.dropHint) card.append(el("div", { class: "hint", text: ex.dropHint }));
 
     const det = el("details", {}, [el("summary", { text: "How to do it" })]);
     (ex.how ? [["What to do", ex.how]] : [["Basic", ex.basic], ["Intermediate", ex.intermediate], ["Advanced", ex.advanced]]).forEach(([l, t]) =>
