@@ -74,6 +74,11 @@
     background: var(--raised); font-size: 1.1rem; font-weight: 700; font-variant-numeric: tabular-nums;
   }
   .set[aria-pressed="true"] { background: var(--done); border-color: var(--done); color: var(--done-ink); }
+  .fuel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; font-size: .88rem; }
+  .fuel-top { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .fuel b { color: var(--accent); font-weight: 600; }
+  .fuel ol { margin: 8px 0 0; padding-left: 1.3em; color: #d3d9df; }
+  .fuel .total { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
   .weights { display: flex; flex-wrap: wrap; gap: 8px 16px; }
   .hint { color: var(--muted); font-size: .82rem; margin-top: 6px; }
   .weight { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .88rem; }
@@ -131,6 +136,7 @@
       </div>
       <button class="reset" id="reset" type="button">Reset day</button>
     </div>
+    <div class="fuel" id="fuel"></div>
     <div class="progress">
       <div class="bar"><i id="bar"></i></div>
       <div class="count" id="count"></div>
@@ -394,6 +400,14 @@ DAYS[4].after = [
     why: "Completes the loading phase." }
 ];
 
+/* Daily creatine and whey summary shown at the top of each day */
+const FUEL_TOTAL = "5-day load (Sat to Wed): 100 g creatine (20 scoops) + 4 scoops whey. From Thursday (maintenance): 1 scoop (5 g) creatine per day + 1 scoop whey on workout days only.";
+DAYS[0].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["Morning", "Pre-workout meal", "Post-workout shaker", "Night meal"] };
+DAYS[1].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["Morning", "Pre-workout (potatoes)", "Post-workout shaker", "Night meal (fish)"] };
+DAYS[2].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["8:30 AM, morning", "9:30 AM, pre-workout potatoes", "11:45 AM, post-workout shaker", "8:00 PM, night fish"] };
+DAYS[3].fuel = { creatine: "20 g", whey: "0 scoops (solid food only)", doses: ["Morning", "Work lunch", "6:55 PM, potatoes, rice, fish", "8:40 PM, night fish"] };
+DAYS[4].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["6:45 AM, breakfast", "12:30 PM, pre-workout meal", "3:00 PM, post-workout shaker", "8:30 PM, night fish"] };
+
 /* ---------- storage ---------- */
 const KEY = "gym-plan-v1";
 let store = {};
@@ -438,6 +452,17 @@ function render() {
 
   $("day-title").textContent = current.tab + ": " + current.title;
   $("day-sub").textContent = current.sub;
+
+  const f = current.fuel, fuel = $("fuel"); fuel.replaceChildren();
+  fuel.hidden = !f;
+  if (f) {
+    fuel.append(el("div", { class: "fuel-top" }, [
+      el("span", {}, [el("b", { text: "Creatine " }), document.createTextNode(f.creatine + " (4 x 5 g)")]),
+      el("span", {}, [el("b", { text: "Chocolate whey " }), document.createTextNode(f.whey)])
+    ]));
+    const ol = el("ol"); f.doses.forEach(d => ol.append(el("li", { text: d }))); fuel.append(ol);
+    fuel.append(el("div", { class: "total", text: FUEL_TOTAL }));
+  }
 
   const grid = $("exercises"); grid.replaceChildren();
   current.exercises.forEach((ex, i) => {
