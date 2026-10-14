@@ -307,7 +307,8 @@ const DAYS = [
         dropHint: "Dumbbells: grab the pair 2 steps lighter on the rack (main set 40 lbs, take the 25 or 30 lbs) right after your last rep.",
         cue: "No swinging, lower over 3 seconds. Drop set on set 4.",
         how: "Stand straight, lean slightly forward, and raise the dumbbells out to your sides until your elbows reach shoulder height. Do not swing your body. Lower them slowly over 3 seconds. Do a drop set on Set 4." },
-      { name: "Heavy Dumbbell Shrugs + Farmer's Walk (Upper Traps & Frame)", video: "rFsSeClGnNA", sets: 4, reps: "12-15 shrugs + 30 sec walk", rest: 60,
+      { name: "Heavy Dumbbell Shrugs + Farmer's Walk (Upper Traps & Frame)", video: "rFsSeClGnNA",
+        videos: [{ label: "shrugs", id: "rFsSeClGnNA" }, { label: "farmer's walk", id: "1uOs1hP3u4A" }], sets: 4, reps: "12-15 shrugs + 30 sec walk", rest: 60,
         cue: "Hold 1 second at the top, then walk until your grip gives out.",
         how: "Grab heavy dumbbells, pull your shoulders straight up toward your ears, and hold at the top for 1 full second on every rep. After rep 15, do not drop the weights. Walk across the gym floor for 30 seconds until your grip gives out." }
     ],
@@ -481,20 +482,23 @@ function render() {
     ]));
     card.append(el("div", { class: "cue", text: "Cue: " + ex.cue }));
 
-    const vid = el("div", { class: "video" });
-    const play = el("button", {
-      type: "button", "aria-label": "Play demo video for " + ex.name,
-      style: "background-image:url(https://i.ytimg.com/vi/" + ex.video + "/hqdefault.jpg)",
-      onclick: () => {
-        vid.replaceChildren(el("iframe", {
-          src: "https://www.youtube.com/embed/" + ex.video + "?autoplay=1&rel=0",
-          title: ex.name + " demo", allow: "autoplay; encrypted-media; picture-in-picture", allowfullscreen: ""
-        }));
-      }
-    }, [el("span", { text: "▶ Play demo" })]);
-    vid.append(play);
-    card.append(vid);
-    card.append(el("a", { class: "ytlink", href: "https://www.youtube.com/watch?v=" + ex.video, target: "_blank", rel: "noopener", text: "Video not playing? Open on YouTube" }));
+    (ex.videos || [{ id: ex.video }]).forEach(v => {
+      const vid = el("div", { class: "video" });
+      const label = v.label ? v.label + " " : "";
+      const play = el("button", {
+        type: "button", "aria-label": "Play " + label + "demo video for " + ex.name,
+        style: "background-image:url(https://i.ytimg.com/vi/" + v.id + "/hqdefault.jpg)",
+        onclick: () => {
+          vid.replaceChildren(el("iframe", {
+            src: "https://www.youtube.com/embed/" + v.id + "?autoplay=1&rel=0",
+            title: ex.name + " " + label + "demo", allow: "autoplay; encrypted-media; picture-in-picture", allowfullscreen: ""
+          }));
+        }
+      }, [el("span", { text: "\u25B6 Play " + label + "demo" })]);
+      vid.append(play);
+      card.append(vid);
+      card.append(el("a", { class: "ytlink", href: "https://www.youtube.com/watch?v=" + v.id, target: "_blank", rel: "noopener", text: "Video not playing? Open on YouTube" }));
+    });
 
     const sets = el("div", { class: "sets" });
     st.sets[i].forEach((done, k) => {
