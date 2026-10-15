@@ -321,6 +321,47 @@ const DAYS = [
       ]
     }
   }
+  ,{
+    id: "d6",
+    tab: "Day 6",
+    title: "Back, Heavier",
+    sub: "Maintenance phase starts today. Gym 5:00 to 6:00 PM. Drop sets on all 6 exercises.",
+    exercises: [
+      { name: "Wide-Grip Lat Pulldown (Upper Back Width, V-Taper)", video: "7jBmlCq5QzQ", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin and move it 2 to 3 plates lighter right away, then keep going until your arms fail. Then tick the set.",
+        cue: "Elbows toward the floor, 3 seconds up. Drop set on set 4.",
+        how: "Grip the bar wide outside your shoulders, lean back slightly, and pull the bar straight down to your upper chest while driving your elbows toward the floor. Take 3 full seconds to let the bar rise all the way up until you feel a deep stretch under your armpits." },
+      { name: "Seated Cable Row, Close V-Bar Grip (Mid-Back Thickness)", video: "wAU8VdcRAMQ", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin and move it 2 to 3 plates lighter right away, then keep going until your arms fail. Then tick the set.",
+        cue: "Squeeze 1 second, lower back still, 3 seconds forward. Drop set on set 4.",
+        how: "Sit tall with your chest pushed out and pull the handle directly into your stomach while squeezing your shoulder blades together for 1 full second. Keep your lower back still (do not swing back and forth) and take 3 full seconds to let your arms stretch forward." },
+      { name: "One-Arm Dumbbell Row or Seated Machine Row (Lower Lat Sweep)", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Switch right away to dumbbells 2 steps lighter, or move the machine pin 2 to 3 plates lighter, and keep going until your arms fail. Then tick the set.",
+        cue: "Pull to the hip like a lawnmower, lower over 3 seconds. Drop set on set 4.",
+        how: "Pull the weight back toward your hip (not your chest) like you are starting a lawnmower, keeping your elbow tight against your side. Lower the weight slowly over 3 seconds until your shoulder stretches toward the floor before pulling again." },
+      { name: "Straight-Arm Cable Pulldown (Pure Lat Isolation)", video: "lnec6DdscJU", sets: 3, reps: "12-15 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin and move it 2 to 3 plates lighter right away, then keep going until your arms fail. Then tick the set.",
+        cue: "Arc to the thighs, squeeze 1 second, return over 3 seconds. Drop set on set 3.",
+        how: "Stand a step back from a high cable, keep your arms nearly straight, and push the bar or rope down in an arc until it touches your thighs. Hold the squeeze in the sides of your back for 1 second, then let the cable slowly pull your arms back up over 3 seconds." },
+      { name: "Reverse Pec Deck Machine or Rope Face Pulls (Rear Shoulders & Posture)", video: "H5UxZFl0lgk", sets: 4, reps: "12-15 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin and move it 2 to 3 plates lighter right away, then keep going until your arms fail. Then tick the set.",
+        cue: "Shoulders down away from ears, 3 seconds back. Drop set on set 4.",
+        how: "Sit facing the Pec Deck pad (or stand at a high cable with a rope) and pull your arms straight back using the backs of your shoulders. Keep your shoulders pushed down away from your ears and take 3 seconds to return to the start." },
+      { name: "Dumbbell Hammer Curls (Biceps & Forearm Thickness)", sets: 4, reps: "10-12 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Switch right away to the dumbbells 2 steps lighter and keep going until your arms fail. Then tick the set.",
+        cue: "Palms facing each other, elbows still, lower over 3 seconds. Drop set on set 4.",
+        how: "Stand straight holding dumbbells with your palms facing each other (thumbs pointing up) and curl the weights up without moving your elbows forward. Lower the dumbbells slowly over 3 full seconds all the way down until your arms are straight." }
+    ],
+    notes: {
+      title: "Rules for today",
+      items: [
+        ["Maintenance phase starts", "Your 5-day loading phase is over and your muscles are full. From today take only ONE 5 g scoop of creatine per day. Do not take 4 scoops, or your body will flush it out and upset your stomach."],
+        ["Go heavier than Day 2", "Move the pin down 1 plate on every machine and grab dumbbells 5 lbs heavier than Day 2 (Sunday)."],
+        ["The 3-second rule", "Take 3 full seconds to let the weight stretch your back on every single rep. Do not let the stack slam down."],
+        ["Final-set drop sets, all 6 exercises", "A drop set is the end of your last set, not an extra set. At failure with your main weight, do not rest. Move the pin 2 to 3 plates lighter (or dumbbells 2 steps lighter) and keep going until your arms cannot pull anymore. Write both weights in the two boxes."]
+      ]
+    }
+  }
 ];
 /* Day 2 fueling: potatoes before the gym, egg whites after, fish at night */
 DAYS[1].before = [
@@ -409,12 +450,41 @@ DAYS[4].after = [
     why: "Tissue repair and growth hormone release happen during deep sleep." }
 ];
 
+/* Day 6: maintenance phase, one 5 g scoop per day */
+DAYS[5].beforeTitle = "Before the gym";
+DAYS[5].before = [
+  { name: "Breakfast", when: "Morning",
+    what: "Eat 2 to 3 whole eggs plus a splash of liquid egg whites, with carbs. 0 g creatine.",
+    why: "Maintenance phase: creatine is taken once, after the gym." },
+  { name: "Work Lunch", when: "12:00 PM",
+    what: "Eat a normal packed meal (carbs plus fish or chicken). 0 g creatine.",
+    why: "Normal fuel for the day." },
+  { name: "Pre-Workout Fuel", when: "3:30 PM to 4:00 PM",
+    what: "Eat a plate of potatoes or rice with lean protein (or bananas and rice cakes if you are still at your desk). 0 g creatine.",
+    why: "Carbohydrates now fuel the back session." }
+];
+DAYS[5].after = [
+  { name: "Post-Workout Shaker", when: "6:00 PM, at the gym fountain",
+    what: "Right after your last set, drink 1 scoop chocolate whey plus your ONLY 5 g creatine scoop of the day in cold water. If you already took 5 g of creatine earlier today, put ONLY whey in the shaker and do not take a second scoop.",
+    why: "Fast protein and the day's single creatine scoop." },
+  { name: "Post-Workout Solid Meal", when: "7:00 PM, at home",
+    what: "Eat heavily salted potatoes or rice with 1 cup (250 ml) liquid egg whites. Zero whole eggs, zero fat.",
+    why: "Carbs and protein with no fat refill the muscle." },
+  { name: "Final Night Meal", when: "9:00 PM",
+    what: "Eat white fish or chicken breast. Zero creatine with this meal.",
+    why: "Lean protein before sleep." },
+  { name: "Sleep", when: "10:00 PM",
+    what: "In bed, eyes closed.",
+    why: "Tissue repair and growth hormone release happen during deep sleep." }
+];
+
 /* Daily creatine and whey summary shown at the top of each day */
 const FUEL_TOTAL = "5-day load (Sat to Wed): 100 g creatine (20 scoops) + 4 scoops whey. From Thursday (maintenance): 1 scoop (5 g) creatine per day + 1 scoop whey on workout days only.";
 DAYS[0].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["Morning", "Pre-workout meal", "Post-workout shaker", "Night meal"] };
 DAYS[1].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["Morning", "Pre-workout (potatoes)", "Post-workout shaker", "Night meal (fish)"] };
 DAYS[2].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["8:30 AM, morning", "9:30 AM, pre-workout potatoes", "11:45 AM, post-workout shaker", "8:00 PM, night fish"] };
 DAYS[3].fuel = { creatine: "20 g", whey: "0 scoops (solid food only)", doses: ["Morning", "Work lunch", "6:55 PM, potatoes, rice, fish", "8:40 PM, night fish"] };
+DAYS[5].fuel = { creatine: "5 g (1 scoop, maintenance)", split: "", whey: "1 scoop (post-workout shaker)", doses: ["Only creatine of the day: post-workout shaker, 6:00 PM (if taken earlier, whey only in the shaker)", "Breakfast, lunch, pre-workout and night meal: 0 g creatine"] };
 DAYS[4].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["6:45 AM, breakfast", "12:30 PM, pre-workout meal", "3:00 PM, post-workout shaker", "8:30 PM, night fish or chicken"] };
 
 /* ---------- storage ---------- */
@@ -466,7 +536,7 @@ function render() {
   fuel.hidden = !f;
   if (f) {
     fuel.append(el("div", { class: "fuel-top" }, [
-      el("span", {}, [el("b", { text: "Creatine " }), document.createTextNode(f.creatine + " (4 x 5 g)")]),
+      el("span", {}, [el("b", { text: "Creatine " }), document.createTextNode(f.creatine + (f.split === undefined ? " (4 x 5 g)" : f.split))]),
       el("span", {}, [el("b", { text: "Chocolate whey " }), document.createTextNode(f.whey)])
     ]));
     const ol = el("ol"); f.doses.forEach(d => ol.append(el("li", { text: d }))); fuel.append(ol);
@@ -485,7 +555,7 @@ function render() {
     ]));
     card.append(el("div", { class: "cue", text: "Cue: " + ex.cue }));
 
-    (ex.videos || [{ id: ex.video }]).forEach(v => {
+    (ex.videos || (ex.video ? [{ id: ex.video }] : [])).forEach(v => {
       const vid = el("div", { class: "video" });
       const label = v.label ? v.label + " " : "";
       const play = el("button", {
