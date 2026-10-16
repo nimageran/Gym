@@ -365,6 +365,47 @@ const DAYS = [
       ]
     }
   }
+  ,{
+    id: "d7",
+    tab: "Day 7",
+    title: "Legs",
+    sub: "Maintenance phase. Gym 5:00 to 6:00 PM. Drop sets on all 6 exercises.",
+    exercises: [
+      { name: "Seated Leg Press Machine (Quads & Overall Leg Mass)", target: { main: "180 - 220 lbs", drop: "130 - 150 lbs" }, video: "S4c9EYGYDA8", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin down to your drop-set weight right away and keep going until your legs fail. Then tick the set.",
+        cue: "Slow 3-second lowering to 90 degrees. Drop set on set 4.",
+        how: "Place your feet hip-width apart in the middle of the platform and lower the sled slowly over 3 full seconds until your knees are at a 90-degree angle. Push through your heels to press the weight back up, stopping just before your knees lock out." },
+      { name: "Dumbbell Goblet Squat (Quad Sweep & Core Depth)", target: { main: "40 - 50 lb dumbbell", drop: "25 - 35 lb dumbbell" }, video: "7-80HiXX1K8", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Switch right away to your drop-set dumbbells and keep going until your legs fail. Then tick the set.",
+        cue: "Chest tall, sit down over 3 seconds. Drop set on set 4.",
+        how: "Hold one heavy dumbbell vertically against your chest with both hands, keep your chest tall, and sit your hips straight down over 3 full seconds until your thighs are parallel to the floor. Drive hard through your mid-foot to stand back up without leaning your upper body forward." },
+      { name: "Dumbbell Romanian Deadlift, RDL (Hamstrings & Glutes)", target: { main: "35 - 45 lb dumbbells", drop: "25 - 30 lb dumbbells" }, video: "hu3jRvTc_po", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Switch right away to your drop-set dumbbells and keep going until your legs fail. Then tick the set.",
+        cue: "Hips back for 3 seconds, back flat. Drop set on set 4.",
+        how: "Stand with your feet hip-width apart, keep a slight bend in your knees, and push your hips straight back for 3 seconds while sliding the dumbbells down the front of your legs until they reach mid-shin. Keep your back completely flat and drive your hips forward to stand back up." },
+      { name: "Leg Extension Machine (Front Quad Definition)", target: { main: "85 - 105 lbs", drop: "55 - 70 lbs" }, video: "uM86QE59Tgc", sets: 4, reps: "12-15 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin down to your drop-set weight right away and keep going until your legs fail. Then tick the set.",
+        cue: "Squeeze 1 second, lower over 3 seconds. Drop set on set 4.",
+        how: "Line your knees up with the machine's pivot point, hold the side handles tightly, and kick your legs all the way up until they are straight while squeezing your quads for 1 full second. Lower the pad slowly over 3 full seconds so the weight stack never slams down." },
+      { name: "Seated Leg Curl Machine (Back of Legs / Hamstrings)", target: { main: "80 - 100 lbs", drop: "55 - 65 lbs" }, video: "xdbEG3xGLI8", sets: 4, reps: "12-15 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin down to your drop-set weight right away and keep going until your legs fail. Then tick the set.",
+        cue: "Squeeze 1 second, return over 3 seconds. Drop set on set 4.",
+        how: "Set the ankle pad just above your heels, lock the thigh pad tightly over your lap, and pull your heels down and back as far as possible for a 1-second squeeze. Let your legs rise back up slowly over 3 full seconds to keep constant tension on your hamstrings." },
+      { name: "Standing Calf Raise Machine (Lower Leg Size)", target: { main: "100 - 130 lbs", drop: "70 - 90 lbs" }, video: "yQZDGjL-xT4", sets: 4, reps: "15-20 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin down to your drop-set weight right away and keep going until your legs fail. Then tick the set.",
+        cue: "Hold the top 1 second, lower over 3 seconds. Drop set on set 4.",
+        how: "Place the balls of your feet on the step, keep your knees straight, and push all the way up onto your tiptoes while holding the top squeeze for 1 full second. Lower your heels slowly over 3 seconds below the step until you feel a deep stretch in your calves." }
+    ],
+    notes: {
+      title: "Rules for today",
+      items: [
+        ["3-second lowering", "Count 3 full seconds on the way down on every single rep."],
+        ["Final-set drop set", "On set 4 of all 6 exercises, hit failure, immediately drop to the target drop-set weight with zero rest, and keep repping until your legs fail."],
+        ["Log your numbers", "Fill in the Weight used and Drop-set weight boxes between sets so your next legs day has real numbers."],
+        ["Maintenance phase", "Take only ONE 5 g creatine scoop today, in the post-workout shaker. Saturday is your full rest day."]
+      ]
+    }
+  }
 ];
 /* Day 2 fueling: potatoes before the gym, egg whites after, fish at night */
 DAYS[1].before = [
@@ -481,6 +522,37 @@ DAYS[5].after = [
     why: "Tissue repair and growth hormone release happen during deep sleep." }
 ];
 
+/* Day 7: legs, maintenance phase */
+DAYS[6].beforeTitle = "Before the gym";
+DAYS[6].before = [
+  { name: "Morning Breakfast", when: "7:00 AM",
+    what: "Eat 2 to 3 whole eggs plus a splash of liquid egg whites, with carbs (oats, toast, or potatoes). 0 g creatine.",
+    why: "Maintenance phase: creatine is taken once, after the gym." },
+  { name: "Work Lunch", when: "12:00 PM",
+    what: "Eat your normal packed lunch (rice or potatoes with fish or chicken). 0 g creatine.",
+    why: "Normal fuel for the day." },
+  { name: "Pre-Workout Meal", when: "3:30 PM (90 minutes before the gym)",
+    what: "Eat your packed plate of potatoes or rice with lean protein (or bananas and rice cakes if you are out of the office). 0 g creatine.",
+    why: "Carbohydrates now fuel the leg session." }
+];
+DAYS[6].after = [
+  { name: "Post-Workout Shaker", when: "6:00 PM, at the gym water fountain",
+    what: "Fill your dry shaker with cold water (1 scoop chocolate whey + your ONLY 5 g creatine scoop of the day) and drink it immediately after your last set.",
+    why: "Fast protein and the day's single creatine scoop." },
+  { name: "Post-Workout Solid Meal", when: "7:00 PM, at home",
+    what: "Eat heavily salted potatoes or rice with 1 cup (250 ml) pure liquid egg whites. Zero yolks, zero fat. 0 g creatine.",
+    why: "Carbs and protein with no fat refill the muscle." },
+  { name: "Final Night Meal", when: "9:00 PM",
+    what: "Eat white fish or chicken breast. 0 g creatine.",
+    why: "Lean protein before sleep." },
+  { name: "Sleep", when: "10:00 PM",
+    what: "Get in bed. Saturday is your full rest day.",
+    why: "Tissue repair and growth hormone release happen during deep sleep." }
+];
+DAYS[5].after.push({ name: "Pack for Tomorrow", when: "Tonight, after your meal",
+  what: "Put your dry shaker (1 scoop chocolate whey + 1 single 5 g creatine scoop) in your gym bag. Pack two containers: your 12:00 PM lunch and your 3:30 PM pre-workout meal (potatoes or rice with fish or chicken). No more creatine tonight.",
+  why: "Everything ready means zero guesswork tomorrow." });
+
 /* Daily creatine and whey summary shown at the top of each day */
 const FUEL_TOTAL = "5-day load (Sat to Wed): 100 g creatine (20 scoops) + 4 scoops whey. From Thursday (maintenance): 1 scoop (5 g) creatine per day + 1 scoop whey on workout days only.";
 DAYS[0].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["Morning", "Pre-workout meal", "Post-workout shaker", "Night meal"] };
@@ -488,6 +560,7 @@ DAYS[1].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses:
 DAYS[2].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["8:30 AM, morning", "9:30 AM, pre-workout potatoes", "11:45 AM, post-workout shaker", "8:00 PM, night fish"] };
 DAYS[3].fuel = { creatine: "20 g", whey: "0 scoops (solid food only)", doses: ["Morning", "Work lunch", "6:55 PM, potatoes, rice, fish", "8:40 PM, night fish"] };
 DAYS[5].fuel = { creatine: "5 g (1 scoop, maintenance)", split: "", whey: "1 scoop (post-workout shaker)", doses: ["Only creatine of the day: post-workout shaker, 6:00 PM (if taken earlier, whey only in the shaker)", "Breakfast, lunch, pre-workout and night meal: 0 g creatine"] };
+DAYS[6].fuel = { creatine: "5 g (1 scoop, maintenance)", split: "", whey: "1 scoop (post-workout shaker)", doses: ["Only creatine of the day: post-workout shaker, 6:00 PM", "Breakfast, lunch, pre-workout, solid meal and night meal: 0 g creatine"] };
 DAYS[4].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["6:45 AM, breakfast", "12:30 PM, pre-workout meal", "3:00 PM, post-workout shaker", "8:30 PM, night fish or chicken"] };
 
 /* ---------- storage ---------- */
