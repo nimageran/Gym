@@ -84,6 +84,15 @@
   .fuel b { color: var(--accent); font-weight: 600; }
   .fuel ol { margin: 8px 0 0; padding-left: 1.3em; color: #d3d9df; }
   .fuel .total { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+  .done-overlay { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(8, 6, 16, .82); }
+  .done-overlay[hidden] { display: none; }
+  #confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .done-card { position: relative; text-align: center; max-width: 360px; width: 100%; padding: 28px 22px; border-radius: 18px; background: linear-gradient(160deg, #2a1445, #170d29); border: 1px solid #b25cff; box-shadow: 0 0 0 1px #b25cff, 0 0 24px rgba(178,92,255,.65), 0 0 60px rgba(178,92,255,.3); animation: pop .5s cubic-bezier(.2,1.4,.4,1); }
+  .done-card h2 { margin: 12px 0 6px; font-size: 1.6rem; color: #f0dcff; text-shadow: 0 0 14px rgba(178,92,255,.9); }
+  .done-card p { margin: 0 0 18px; color: #d9c2f0; }
+  .done-badge { width: 64px; height: 64px; margin: 0 auto; border-radius: 50%; display: grid; place-items: center; font-size: 2rem; font-weight: 800; color: #fff; background: var(--done); box-shadow: 0 0 22px rgba(178,92,255,.9); }
+  .done-btn { background: var(--done); color: #fff; border: 1px solid #c58bff; border-radius: 12px; padding: 12px 28px; font-weight: 700; font-size: 1rem; box-shadow: 0 0 14px rgba(178,92,255,.6); }
+  @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .weights { display: flex; flex-wrap: wrap; gap: 8px 16px; }
   .target { font-size: .88rem; color: var(--fg); background: var(--raised); border-radius: 8px; padding: 6px 10px; margin: 6px 0; }
   .target b { color: var(--accent); font-weight: 600; }
@@ -154,6 +163,16 @@
     <div class="grid" id="exercises"></div>
     <div id="after"></div>
   </main>
+</div>
+
+<div id="done" class="done-overlay" role="dialog" aria-modal="true" aria-labelledby="done-title" hidden>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <div class="done-card">
+    <div class="done-badge" aria-hidden="true">&#10003;</div>
+    <h2 id="done-title">Workout complete</h2>
+    <p id="done-sub"></p>
+    <button class="done-btn" id="done-close" type="button">Nice work</button>
+  </div>
 </div>
 
 <div id="timer" role="timer" aria-live="off" hidden>
@@ -731,6 +750,7 @@ function render() {
           st.sets[i][k] = now; save();
           if (now) startTimer(ex.rest);
           update();
+          if (now && allSetsDone(st)) { stopTimer(); celebrate(); }
           sets.children[k].setAttribute("aria-pressed", String(now));
         }
       }));
@@ -793,6 +813,51 @@ function renderPhases(box, heading, list, checked) {
   });
   box.append(g);
 }
+
+function allSetsDone(st) {
+  return current.exercises.length > 0 && current.exercises.every((ex, i) => st.sets[i].every(Boolean));
+}
+
+/* ---------- completion celebration ---------- */
+let confettiRaf = 0;
+function celebrate() {
+  const st = dayState(current);
+  let sets = 0; current.exercises.forEach(ex => sets += ex.sets);
+  $("done-sub").textContent = current.tab + ": " + current.title + ". All " + sets + " sets done.";
+  $("done").hidden = false;
+  $("done-close").focus();
+  try { navigator.vibrate && navigator.vibrate([200, 80, 200, 80, 400]); } catch (e) {}
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cv = $("confetti"), ctx = cv.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const colors = ["#a24cf0", "#c58bff", "#4da6ff", "#ffffff", "#ff7ad9", "#ffd166"];
+  const bits = Array.from({ length: 140 }, () => ({
+    x: innerWidth / 2, y: innerHeight * 0.45,
+    vx: (Math.random() - 0.5) * 16, vy: -Math.random() * 15 - 4,
+    r: Math.random() * 6 + 3, a: Math.random() * 6.28, va: (Math.random() - 0.5) * 0.4,
+    c: colors[(Math.random() * colors.length) | 0]
+  }));
+  const start = performance.now();
+  cancelAnimationFrame(confettiRaf);
+  (function frame(t) {
+    const age = t - start;
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    bits.forEach(b => {
+      b.vy += 0.35; b.vx *= 0.99; b.x += b.vx; b.y += b.vy; b.a += b.va;
+      ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.a);
+      ctx.globalAlpha = Math.max(0, 1 - age / 4500);
+      ctx.fillStyle = b.c; ctx.fillRect(-b.r, -b.r / 2, b.r * 2, b.r);
+      ctx.restore();
+    });
+    if (age < 4500) confettiRaf = requestAnimationFrame(frame);
+    else ctx.clearRect(0, 0, innerWidth, innerHeight);
+  })(start);
+}
+function closeCelebration() { cancelAnimationFrame(confettiRaf); $("done").hidden = true; }
+$("done-close").addEventListener("click", closeCelebration);
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("done").hidden) closeCelebration(); });
 
 function update() {
   const st = dayState(current);
