@@ -465,6 +465,47 @@ const DAYS = [
       ]
     }
   }
+  ,{
+    id: "d10",
+    tab: "Day 10",
+    title: "Back & Biceps",
+    sub: "Same 6 exercises as Day 6. Maintenance phase. Gym 7:30 to 8:30 PM.",
+    exercises: [
+      { name: "Wide-Grip Lat Pulldown (Upper Back Width, V-Taper)", target: { main: "105 - 120 lbs", drop: "75 - 85 lbs" }, video: "7jBmlCq5QzQ", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin 2 to 3 plates lighter right away and keep going until you cannot pull any more. Then tick the set.",
+        cue: "Elbows to the floor, 3 seconds up. Drop set on set 4.",
+        how: "Grip the bar wide outside your shoulders, lean back slightly, and pull the bar down to your upper chest while driving your elbows straight toward the floor. Let the bar rise slowly over 3 full seconds until your arms are fully stretched overhead." },
+      { name: "Seated Cable Row, Close V-Bar Grip (Mid-Back Thickness)", target: { main: "105 - 125 lbs", drop: "75 - 85 lbs" }, video: "wAU8VdcRAMQ", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin 2 to 3 plates lighter right away and keep going until you cannot pull any more. Then tick the set.",
+        cue: "Squeeze 1 second, 3 seconds forward, no swinging. Drop set on set 4.",
+        how: "Sit tall with your knees slightly bent, pull the V-handle into your lower stomach, and squeeze your shoulder blades together for 1 full second. Extend your arms forward slowly over 3 full seconds without letting your lower back swing forward and backward." },
+      { name: "Seated Machine Row, Chest-Supported (Lower Lat & Mid-Back Detail)", target: { main: "95 - 115 lbs", drop: "65 - 75 lbs" }, video: "azN0upTD8Go", sets: 4, reps: "10-12 reps", rest: 90,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin 2 to 3 plates lighter right away and keep going until you cannot pull any more. Then tick the set.",
+        cue: "Chest glued to the pad, hold 1 second, 3 seconds back. Drop set on set 4.",
+        how: "Keep your chest glued firmly against the front pad to protect your lower back, grab the handles, and pull your elbows straight back behind your body for a 1-second hold. Let the handles return forward slowly over 3 full seconds until your shoulders stretch forward." },
+      { name: "Straight-Arm Cable Pulldown (Lower Lat Sweep)", target: { main: "42.5 - 55 lbs", drop: "25 - 35 lbs" }, video: "lnec6DdscJU", sets: 3, reps: "12-15 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin 2 plates lighter right away and keep going until you cannot pull any more. Then tick the set.",
+        cue: "Arc to the thighs, squeeze 1 second, back up over 3 seconds. Drop set on set 3.",
+        how: "Set the cable pulley to the top, step back, lean forward slightly, and keep your elbows locked straight (with a tiny bend) while pushing the bar in an arc all the way down to your thighs. Squeeze your lats for 1 full second at your legs, then let the bar rise back up to eye level over 3 full seconds." },
+      { name: "Reverse Pec Deck Machine (Rear Shoulders & Upper Back Posture)", target: { main: "60 - 75 lbs", drop: "40 - 50 lbs" }, video: "H5UxZFl0lgk", sets: 4, reps: "12-15 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Pull the pin 2 plates lighter right away and keep going until you cannot pull any more. Then tick the set.",
+        cue: "Chest on the pad, return over 3 seconds, weights never touch. Drop set on set 4.",
+        how: "Sit facing the machine with your chest against the pad, grab the handles with your palms facing each other (or facing down), and swing your arms straight out and back using the back of your shoulders. Return the handles forward slowly over 3 full seconds without letting the weights touch." },
+      { name: "Dumbbell Hammer Curls (Bicep & Forearm Thickness)", target: { main: "25 - 35 lb dumbbells", drop: "15 - 20 lb dumbbells" }, video: "4zVbjuh_hsE", sets: 4, reps: "10-12 reps", rest: 60,
+        dropHint: "A drop set is the end of your last set, not an extra set. When you reach failure with your main weight, do not rest. Rack your heavy dumbbells, grab the 15 or 20 lb pair right away and curl until your arms lock up. Then tick the set.",
+        cue: "Elbows pinned to ribs, squeeze 1 second, lower over 3 seconds. Drop set on set 4.",
+        how: "Stand tall holding two dumbbells at your sides with your palms facing each other (like holding a hammer), keep your elbows pinned to your ribs, and curl both weights up at the same time. Squeeze at the top for 1 second, then lower the dumbbells slowly over 3 full seconds until your arms are completely straight." }
+    ],
+    notes: {
+      title: "How today compares to Day 2 and Day 6",
+      items: [
+        ["Same workout as Day 6", "You do the exact same 6 locked-in exercises as Thursday (Seated Machine Row for exercise 3 and Reverse Pec Deck for exercise 5). Keeping the same movements lets your nervous system lock in the form so all your effort goes into building a thicker back and arms."],
+        ["Beat Thursday (progressive overload)", "Check the weights you logged on Day 6. Either do 1 to 2 more reps on every set with that exact same weight, or if you hit 12 reps on Thursday, move the pin 1 plate heavier (or go up 5 lbs on dumbbells). If you did not log them, use the target weights shown under each exercise."],
+        ["Same creatine and food as Day 6", "Maintenance phase: only ONE 5 g scoop of creatine for the whole day, inside your post-workout whey shaker. One hour later eat 100% pure liquid egg whites, with no whole eggs and no oil."],
+        ["Rules", "3-second lowering on every rep. Drop set on the last set of every exercise. Sip 1 liter of plain water between sets. Fill in the Weight used and Drop-set weight boxes."]
+      ]
+    }
+  }
 ];
 /* Day 2 fueling: potatoes before the gym, egg whites after, fish at night */
 DAYS[1].before = [
@@ -640,6 +681,34 @@ DAYS[7].after = [
     why: "Tissue repair and growth hormone release happen during deep sleep." }
 ];
 
+/* Day 10: back and biceps, maintenance phase, Monday evening session */
+DAYS[8].beforeTitle = "Before the gym";
+DAYS[8].before = [
+  { name: "Breakfast", when: "7:00 AM",
+    what: "Eat 3 whole eggs plus a splash of liquid egg whites, with oats, toast, or potatoes. 0 g creatine.",
+    why: "Maintenance phase: creatine is taken once, after the gym." },
+  { name: "Work Lunch", when: "12:00 PM",
+    what: "Eat white rice or potatoes with chicken breast or white fish. 0 g creatine.",
+    why: "Normal fuel for the day." },
+  { name: "Pre-Workout Meal", when: "90 minutes before the gym",
+    what: "Eat a plate of white rice or potatoes with lean protein (chicken or fish). 0 g creatine.",
+    why: "Carbohydrates now fuel the back session." },
+  { name: "Pack Your Shaker", when: "7:05 PM, before you leave",
+    what: "Put 1 scoop chocolate whey + your ONLY 5 g creatine scoop for today into your dry shaker bottle (no water yet) and put it in your gym bag.",
+    why: "Nothing to remember at the gym fountain." }
+];
+DAYS[8].after = [
+  { name: "Post-Workout Shaker", when: "8:30 PM, at the gym water fountain",
+    what: "Fill your dry shaker with cold water (1 scoop chocolate whey + 5 g creatine) and drink it immediately after finishing set 4 of the Hammer Curls.",
+    why: "Fast protein and the day's single creatine scoop." },
+  { name: "Post-Workout Solid Meal", when: "9:30 PM, at home, zero fat",
+    what: "Eat a large plate of heavily salted white rice or potatoes with 1 cup (250 ml) of 100% pure liquid egg whites cooked in a pan. Zero whole eggs, zero yolks, zero oil or butter. Drink 500 ml water. 0 g creatine.",
+    why: "No fat means the carbs and protein digest fast before bed." },
+  { name: "Sleep", when: "10:30 PM",
+    what: "Skip the extra late-night fish or chicken meal and go straight to sleep.",
+    why: "Your body recovers for tomorrow's Legs session." }
+];
+
 /* Daily creatine and whey summary shown at the top of each day */
 const FUEL_TOTAL = "5-day load (Sat to Wed): 100 g creatine (20 scoops) + 4 scoops whey. From Thursday (maintenance): 1 scoop (5 g) creatine per day + 1 scoop whey on workout days only.";
 DAYS[0].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["Morning", "Pre-workout meal", "Post-workout shaker", "Night meal"] };
@@ -649,6 +718,7 @@ DAYS[3].fuel = { creatine: "20 g", whey: "0 scoops (solid food only)", doses: ["
 DAYS[5].fuel = { creatine: "5 g (1 scoop, maintenance)", split: "", whey: "1 scoop (post-workout shaker)", doses: ["Only creatine of the day: post-workout shaker, 6:00 PM (if taken earlier, whey only in the shaker)", "Breakfast, lunch, pre-workout and night meal: 0 g creatine"] };
 DAYS[6].fuel = { creatine: "5 g (1 scoop, maintenance)", split: "", whey: "1 scoop (post-workout shaker)", doses: ["Only creatine of the day: post-workout shaker, 6:00 PM", "Breakfast, lunch, pre-workout, solid meal and night meal: 0 g creatine"] };
 DAYS[7].fuel = { creatine: "5 g (1 scoop, maintenance)", split: "", whey: "1 scoop (post-workout shaker)", doses: ["Only creatine of the day: post-workout shaker, 2:00 PM", "Breakfast, pre-workout, solid meal, evening and night meal: 0 g creatine"] };
+DAYS[8].fuel = { creatine: "5 g (1 scoop, maintenance)", split: "", whey: "1 scoop (post-workout shaker)", doses: ["Only creatine of the day: post-workout shaker, 8:30 PM", "Breakfast, lunch, pre-workout and solid meal: 0 g creatine"] };
 DAYS[4].fuel = { creatine: "20 g", whey: "1 scoop (post-workout shaker)", doses: ["6:45 AM, breakfast", "12:30 PM, pre-workout meal", "3:00 PM, post-workout shaker", "8:30 PM, night fish or chicken"] };
 
 /* ---------- storage ---------- */
